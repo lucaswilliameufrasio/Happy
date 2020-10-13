@@ -8,9 +8,9 @@ module.exports = {
   ],
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
-  testEnvironment: 'node',
+  testEnvironment: 'jsdom',
   transform: {
-    '.+\\.ts$': 'ts-jest'
+    '.+\\.(ts|tsx)$': 'ts-jest'
   },
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
