@@ -1,4 +1,5 @@
 import { AddOrphanageRepositorySpy } from '@/data/test/mock-db-orphanage'
+import { throwError } from '@/domain/test'
 import { mockAddOrphanageParams } from '@/domain/test/mock-orphanage'
 import { DbAddOrphanage } from './db-add-orphanage'
 
@@ -34,5 +35,15 @@ describe('DbAddOrphanage UseCase', () => {
       open_on_weekend: addOrphanageParams.open_on_weekend,
       approved: addOrphanageParams.approved
     })
+  })
+
+  test('Should throw if AddOrphanageRepository throws', async () => {
+    const { sut, addOrphanageRepositorySpy } = makeSut()
+
+    jest.spyOn(addOrphanageRepositorySpy, 'add').mockImplementationOnce(throwError)
+
+    const promise = sut.add(mockAddOrphanageParams())
+
+    await expect(promise).rejects.toThrow()
   })
 })
