@@ -1,5 +1,5 @@
 import { AddOrphanage } from '@/domain/usecases/orphanage/add-orphanage'
-import { badRequest } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, Validation } from './add-orphanage-controller-protocols'
 
 export class AddOrphanageController implements Controller {
@@ -9,24 +9,28 @@ export class AddOrphanageController implements Controller {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const error = this.validation.validate(httpRequest.body)
+    try {
+      const error = this.validation.validate(httpRequest.body)
 
-    if (error) {
-      return badRequest(error)
+      if (error) {
+        return badRequest(error)
+      }
+
+      const { name, latitude, longitude, whatsapp, about, instructions, open_on_weekend: OpenOnWeekend, approved } = httpRequest.body
+      await this.addOrphanage.add({
+        name,
+        latitude,
+        longitude,
+        whatsapp,
+        about,
+        instructions,
+        open_on_weekend: OpenOnWeekend,
+        approved
+      })
+
+      return null
+    } catch (error) {
+      return serverError(error)
     }
-
-    const { name, latitude, longitude, whatsapp, about, instructions, open_on_weekend: OpenOnWeekend, approved } = httpRequest.body
-    await this.addOrphanage.add({
-      name,
-      latitude,
-      longitude,
-      whatsapp,
-      about,
-      instructions,
-      open_on_weekend: OpenOnWeekend,
-      approved
-    })
-
-    return null
   }
 }
