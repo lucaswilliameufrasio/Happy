@@ -1,7 +1,7 @@
 import { AddOrphanageController } from './add-orphanage-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { ValidationSpy, AddOrphanageSpy } from '@/presentation/test'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError, created } from '@/presentation/helpers/http/http-helper'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
@@ -71,5 +71,13 @@ describe('AddOrphanage Controller', () => {
     const httpResponse = await sut.handle(mockRequest())
 
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return an orphanage on success', async () => {
+    const { sut, addOrphanageSpy } = makeSut()
+
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(created(addOrphanageSpy.orphanageModel))
   })
 })
