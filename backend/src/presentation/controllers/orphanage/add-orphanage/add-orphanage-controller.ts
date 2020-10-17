@@ -1,5 +1,5 @@
 import { AddOrphanage } from '@/domain/usecases/orphanage/add-orphanage'
-import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError, created } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse, Validation } from './add-orphanage-controller-protocols'
 
 export class AddOrphanageController implements Controller {
@@ -17,7 +17,7 @@ export class AddOrphanageController implements Controller {
       }
 
       const { name, latitude, longitude, whatsapp, about, instructions, open_on_weekend: OpenOnWeekend, approved } = httpRequest.body
-      await this.addOrphanage.add({
+      const orphanage = await this.addOrphanage.add({
         name,
         latitude,
         longitude,
@@ -28,7 +28,7 @@ export class AddOrphanageController implements Controller {
         approved
       })
 
-      return null
+      return created(orphanage)
     } catch (error) {
       return serverError(error)
     }
