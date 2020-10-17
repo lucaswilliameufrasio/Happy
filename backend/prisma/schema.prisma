@@ -10,3 +10,14 @@ generator client {
   provider = "prisma-client-js"
 }
 
+model Orphanage {
+  id Int @id @default(autoincrement())
+  name String
+  latitude Float
+  longitude Float
+  whatsapp String
+  about String
+  instructions String
+  open_on_weekend Boolean
+  approved Boolean
+}
