@@ -1,6 +1,6 @@
-import { AddOrphanageParams } from '../usecases/orphanage/add-orphanage'
+import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
+import { OrphanageModel } from '@/domain/models/orphanage'
 import faker from 'faker'
-import { OrphanageModel } from '../models/orphanage'
 
 export const mockAddOrphanageParams = (): AddOrphanageParams => ({
   name: faker.name.findName(),
@@ -10,7 +10,10 @@ export const mockAddOrphanageParams = (): AddOrphanageParams => ({
   about: faker.random.words(),
   instructions: faker.random.words(),
   open_on_weekend: faker.random.boolean(),
-  approved: faker.random.boolean()
+  approved: faker.random.boolean(),
+  images: [{
+    name: faker.random.word()
+  }]
 })
 
 export const mockOrphanageModel = (): OrphanageModel => ({
@@ -22,5 +25,8 @@ export const mockOrphanageModel = (): OrphanageModel => ({
   about: faker.random.words(),
   instructions: faker.random.words(),
   open_on_weekend: faker.random.boolean(),
-  approved: faker.random.boolean()
+  approved: faker.random.boolean(),
+  images: [{
+    name: faker.random.word()
+  }]
 })

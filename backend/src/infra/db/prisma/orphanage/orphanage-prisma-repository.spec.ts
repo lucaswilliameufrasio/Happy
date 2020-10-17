@@ -5,7 +5,9 @@ import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import faker from 'faker'
 
 const mockAddOrphanagePrisma = (orphanage: AddOrphanageParams): void => {
-  prisma.orphanage.create = jest.fn().mockImplementationOnce(() => Object.assign({}, orphanage, { id: faker.random.number() }))
+  const orphanageParams = Object.assign({}, orphanage, { id: faker.random.number() })
+  prisma.orphanage.create = jest.fn().mockReturnValueOnce(orphanageParams)
+  prisma.orphanage.findOne = jest.fn().mockReturnValueOnce(orphanageParams)
 }
 
 const makeSut = (): OrphanagePrismaRepository => {

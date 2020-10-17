@@ -33,7 +33,8 @@ describe('DbAddOrphanage UseCase', () => {
       about: addOrphanageParams.about,
       instructions: addOrphanageParams.instructions,
       open_on_weekend: addOrphanageParams.open_on_weekend,
-      approved: addOrphanageParams.approved
+      approved: addOrphanageParams.approved,
+      images: addOrphanageParams.images
     })
   })
 
