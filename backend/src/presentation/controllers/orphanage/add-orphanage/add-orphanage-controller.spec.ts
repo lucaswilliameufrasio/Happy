@@ -1,6 +1,6 @@
 import { AddOrphanageController } from './add-orphanage-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
-import { ValidationSpy } from '@/presentation/test'
+import { ValidationSpy, AddOrphanageSpy } from '@/presentation/test'
 import { badRequest } from '@/presentation/helpers/http/http-helper'
 import faker from 'faker'
 
@@ -20,15 +20,18 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: AddOrphanageController
   validationSpy: ValidationSpy
+  addOrphanageSpy: AddOrphanageSpy
 }
 
 const makeSut = (): SutTypes => {
   const validationSpy = new ValidationSpy()
-  const sut = new AddOrphanageController(validationSpy)
+  const addOrphanageSpy = new AddOrphanageSpy()
+  const sut = new AddOrphanageController(validationSpy, addOrphanageSpy)
 
   return {
     sut,
-    validationSpy
+    validationSpy,
+    addOrphanageSpy
   }
 }
 
@@ -49,5 +52,14 @@ describe('AddOrphanage Controller', () => {
     const httpResponse = await sut.handle(mockRequest())
 
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
+  })
+
+  test('Should call AddOrphanage with correct values', async () => {
+    const { sut, addOrphanageSpy } = makeSut()
+
+    const httpRequest = mockRequest()
+    await sut.handle(httpRequest)
+
+    expect(addOrphanageSpy.addOrphanageParams).toEqual(httpRequest.body)
   })
 })
