@@ -1,7 +1,8 @@
 import { AddOrphanageController } from './add-orphanage-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { ValidationSpy, AddOrphanageSpy } from '@/presentation/test'
-import { badRequest } from '@/presentation/helpers/http/http-helper'
+import { badRequest, serverError } from '@/presentation/helpers/http/http-helper'
+import { throwError } from '@/domain/test'
 import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
@@ -61,5 +62,14 @@ describe('AddOrphanage Controller', () => {
     await sut.handle(httpRequest)
 
     expect(addOrphanageSpy.addOrphanageParams).toEqual(httpRequest.body)
+  })
+
+  test('Should return 500 if AddOrphanage throws', async () => {
+    const { sut, addOrphanageSpy } = makeSut()
+    jest.spyOn(addOrphanageSpy, 'add').mockImplementationOnce(throwError)
+
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
