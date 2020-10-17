@@ -1,4 +1,4 @@
-export type OrphanageImage = {
+export type OrphanageImageModel = {
   name: string
 }
 
@@ -12,5 +12,5 @@ export type OrphanageModel = {
   instructions: string
   open_on_weekend: boolean
   approved: boolean
-  image: OrphanageImage[]
+  images: OrphanageImageModel[]
 }
