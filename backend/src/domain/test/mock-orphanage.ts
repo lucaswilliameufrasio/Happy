@@ -14,7 +14,7 @@ export const mockAddOrphanageParams = (): AddOrphanageParams => ({
 })
 
 export const mockOrphanageModel = (): OrphanageModel => ({
-  id: faker.random.uuid(),
+  id: faker.random.number(),
   name: faker.name.findName(),
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
