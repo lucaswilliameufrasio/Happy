@@ -1,3 +1,7 @@
+export type OrphanageImage = {
+  name: string
+}
+
 export type OrphanageModel = {
   id: number
   name: string
@@ -8,4 +12,5 @@ export type OrphanageModel = {
   instructions: string
   open_on_weekend: boolean
   approved: boolean
+  image: OrphanageImage[]
 }
