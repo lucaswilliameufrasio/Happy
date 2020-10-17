@@ -1,4 +1,4 @@
-import { AddOrphanageRepository } from '@/data/protocols/db/add-orphanage-repository'
+import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { mockOrphanageModel } from '@/domain/test/mock-orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'

@@ -1,7 +1,7 @@
-import { AddOrphanageRepositorySpy } from '@/data/test/mock-db-orphanage'
+import { DbAddOrphanage } from './db-add-orphanage'
+import { AddOrphanageRepositorySpy } from '@/data/test'
 import { throwError } from '@/domain/test'
 import { mockAddOrphanageParams } from '@/domain/test/mock-orphanage'
-import { DbAddOrphanage } from './db-add-orphanage'
 
 type SutTypes = {
   sut: DbAddOrphanage
