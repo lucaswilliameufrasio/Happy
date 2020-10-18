@@ -1,4 +1,4 @@
-import { noContent, ok } from '@/presentation/helpers/http/http-helper'
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { LoadOrphanages,Controller, HttpRequest, HttpResponse } from './load-orphanages-controller-protocols'
 
 export class LoadOrphanagesController implements Controller {
@@ -7,7 +7,11 @@ export class LoadOrphanagesController implements Controller {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const orphanages = await this.loadOrphanages.load()
-    return orphanages.length ? ok(orphanages) : noContent()
+    try {
+      const orphanages = await this.loadOrphanages.load()
+      return orphanages.length ? ok(orphanages) : noContent()
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
