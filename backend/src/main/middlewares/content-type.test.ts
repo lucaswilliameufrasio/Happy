@@ -20,4 +20,15 @@ describe('Content Type Middleware', () => {
       .get('/test_content_type_xml')
       .expect('content-type', /xml/)
   })
+
+  test('Should return multipart/form-data content type when forced', async () => {
+    app.get('/test_content_type_formdata', (req, res) => {
+      res.type('multipart/form-data')
+      res.send('')
+    })
+
+    await request(app)
+      .get('/test_content_type_formdata')
+      .expect('content-type', /form-data/)
+  })
 })
