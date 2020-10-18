@@ -15,6 +15,7 @@ export const addImageUrl = (data: any, url: string): any[] => {
 }
 
 export const addImagesPropertyToOrphanageData = (data: any, url: string): OrphanageModel => {
+  if (!data) return null
   const { OrphanageImage, ...rest } = data
 
   const imagesUrl = addImageUrl(data, url)
