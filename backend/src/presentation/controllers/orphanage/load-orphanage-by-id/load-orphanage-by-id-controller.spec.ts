@@ -1,7 +1,7 @@
 import { LoadOrphanageByIdController } from './load-orphanage-by-id-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { LoadOrphanageByIdSpy } from '@/presentation/test'
-import { serverError } from '@/presentation/helpers/http/http-helper'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
@@ -44,5 +44,13 @@ describe('LoadOrphanageById Controller', () => {
     const httpResponse = await sut.handle(mockRequest())
 
     expect(httpResponse).toEqual(serverError(new Error()))
+  })
+
+  test('Should return an orphanage on success', async () => {
+    const { sut, loadOrphanageByIdSpy } = makeSut()
+
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(ok(loadOrphanageByIdSpy.orphanageModel))
   })
 })
