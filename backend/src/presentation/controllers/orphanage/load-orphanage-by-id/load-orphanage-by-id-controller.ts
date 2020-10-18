@@ -11,12 +11,13 @@ export class LoadOrphanageByIdController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { orphanageId } = httpRequest.params
-      const orphanage = await this.loadOrphanageById.loadById(orphanageId)
+      const orphanage = await this.loadOrphanageById.loadById(Number(orphanageId))
       if (!orphanage) {
         return forbidden(new InvalidParamError('orphanageId'))
       }
       return ok(orphanage)
     } catch (error) {
+      console.error(error)
       return serverError(error)
     }
   }

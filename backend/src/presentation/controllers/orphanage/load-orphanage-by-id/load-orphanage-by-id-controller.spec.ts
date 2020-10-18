@@ -8,7 +8,7 @@ import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
   params: {
-    orphanageId: faker.random.uuid()
+    orphanageId: faker.random.number()
   }
 })
 
