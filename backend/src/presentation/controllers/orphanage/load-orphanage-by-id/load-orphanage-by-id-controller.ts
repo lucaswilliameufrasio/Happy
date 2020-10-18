@@ -1,6 +1,6 @@
-import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
-import { serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from './load-orphanage-by-id-controller-protocols'
+import { ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
 
 export class LoadOrphanageByIdController implements Controller {
   constructor (
@@ -10,8 +10,8 @@ export class LoadOrphanageByIdController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const { orphanageId } = httpRequest.params
-      await this.loadOrphanageById.loadById(orphanageId)
-      return null
+      const orphanage = await this.loadOrphanageById.loadById(orphanageId)
+      return ok(orphanage)
     } catch (error) {
       return serverError(error)
     }
