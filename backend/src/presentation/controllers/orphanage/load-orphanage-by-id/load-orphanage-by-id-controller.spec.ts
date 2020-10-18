@@ -1,7 +1,8 @@
 import { LoadOrphanageByIdController } from './load-orphanage-by-id-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { LoadOrphanageByIdSpy } from '@/presentation/test'
-import { ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { ok, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
+import { InvalidParamError } from '@/presentation/errors'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
@@ -35,6 +36,15 @@ describe('LoadOrphanageById Controller', () => {
     await sut.handle(httpRequest)
 
     expect(loadOrphanageByIdSpy.id).toEqual(httpRequest.params.orphanageId)
+  })
+
+  test('Should return 403 if LoadOrphanageById returns null', async () => {
+    const { sut, loadOrphanageByIdSpy } = makeSut()
+
+    loadOrphanageByIdSpy.orphanageModel = null
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('orphanageId')))
   })
 
   test('Should return 500 if LoadOrphanageById throws', async () => {
