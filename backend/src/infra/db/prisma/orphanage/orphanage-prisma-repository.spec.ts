@@ -11,7 +11,7 @@ const mockAddOrphanagePrisma = (orphanage: AddOrphanageParams): void => {
 }
 
 const makeSut = (): OrphanagePrismaRepository => {
-  return new OrphanagePrismaRepository()
+  return new OrphanagePrismaRepository(faker.internet.url())
 }
 
 describe('OrphanagePrismaRepository', () => {
