@@ -1,8 +1,11 @@
 import setupMiddlewares from './middlewares'
 import setupRoutes from './routes'
+import setupStaticFiles from './image-files'
 import express from 'express'
 
 const app = express()
+
+setupStaticFiles(app)
 
 setupMiddlewares(app)
 setupRoutes(app)
