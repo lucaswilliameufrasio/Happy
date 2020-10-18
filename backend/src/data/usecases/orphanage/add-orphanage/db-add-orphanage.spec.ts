@@ -32,6 +32,7 @@ describe('DbAddOrphanage UseCase', () => {
       whatsapp: addOrphanageParams.whatsapp,
       about: addOrphanageParams.about,
       instructions: addOrphanageParams.instructions,
+      opening_hours: addOrphanageParams.opening_hours,
       open_on_weekend: addOrphanageParams.open_on_weekend,
       approved: addOrphanageParams.approved,
       images: addOrphanageParams.images

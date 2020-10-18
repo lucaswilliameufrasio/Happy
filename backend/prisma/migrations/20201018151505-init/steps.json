@@ -1,0 +1,12 @@
+{
+  "version": "0.3.14-fixed",
+  "steps": [
+    {
+      "tag": "CreateField",
+      "model": "Orphanage",
+      "field": "opening_hours",
+      "type": "String",
+      "arity": "Required"
+    }
+  ]
+}

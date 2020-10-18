@@ -10,6 +10,7 @@ export const mockAddOrphanageParams = (): AddOrphanageParams => ({
   about: faker.random.words(),
   instructions: faker.random.words(),
   open_on_weekend: faker.random.boolean(),
+  opening_hours: faker.random.words(),
   approved: faker.random.boolean(),
   images: [{
     name: faker.random.word()
@@ -24,6 +25,7 @@ export const mockOrphanageModel = (): OrphanageModel => ({
   whatsapp: faker.phone.phoneNumber(),
   about: faker.random.words(),
   instructions: faker.random.words(),
+  opening_hours: faker.random.words(),
   open_on_weekend: faker.random.boolean(),
   approved: faker.random.boolean(),
   images: [{

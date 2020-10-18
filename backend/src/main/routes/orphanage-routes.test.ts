@@ -24,6 +24,7 @@ describe('Orphanage Routes', () => {
         about: 'Acolhimento Institucional',
         instructions: 'Usar mascará.',
         approved: false,
+        opening_hours: 'Das 9 às 15h',
         open_on_weekend: true,
         whatsapp: '(93) 981999008'
       })

@@ -7,7 +7,7 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository {
   constructor (private readonly appUrl: string) {}
 
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
-    const { name, latitude, longitude, about, instructions, approved, open_on_weekend: openOnWeekend, whatsapp, images } = data
+    const { name, latitude, longitude, about, instructions, approved, opening_hours: openingHours, open_on_weekend: openOnWeekend, whatsapp, images } = data
     const createdOrphanage = await prisma.orphanage.create({
       data: {
         name,
@@ -16,6 +16,7 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository {
         about,
         instructions,
         approved,
+        opening_hours: openingHours,
         open_on_weekend: openOnWeekend,
         whatsapp,
         OrphanageImage: {

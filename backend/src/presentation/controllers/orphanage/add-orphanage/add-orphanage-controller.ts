@@ -17,7 +17,7 @@ export class AddOrphanageController implements Controller {
         return badRequest(error)
       }
 
-      const { name, latitude, longitude, whatsapp, about, instructions, open_on_weekend: OpenOnWeekend, approved } = httpRequest.body
+      const { name, latitude, longitude, whatsapp, about, instructions, opening_hours: openingHours, open_on_weekend: openOnWeekend, approved } = httpRequest.body
 
       const images = httpRequest.files.map(file => ({
         name: file.filename
@@ -30,7 +30,8 @@ export class AddOrphanageController implements Controller {
         whatsapp,
         about,
         instructions,
-        open_on_weekend: Boolean(OpenOnWeekend),
+        opening_hours: openingHours,
+        open_on_weekend: Boolean(openOnWeekend),
         approved: Boolean(approved),
         images
       })

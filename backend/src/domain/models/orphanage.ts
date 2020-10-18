@@ -10,6 +10,7 @@ export type OrphanageModel = {
   whatsapp: string
   about: string
   instructions: string
+  opening_hours: string
   open_on_weekend: boolean
   approved: boolean
   images: OrphanageImageModel[]
