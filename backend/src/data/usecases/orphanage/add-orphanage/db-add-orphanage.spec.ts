@@ -47,4 +47,13 @@ describe('DbAddOrphanage UseCase', () => {
 
     await expect(promise).rejects.toThrow()
   })
+
+  test('Should return an orphanage on success', async () => {
+    const { sut, addOrphanageRepositorySpy } = makeSut()
+
+    const addOrphanageParams = mockAddOrphanageParams()
+    const orphanage = await sut.add(addOrphanageParams)
+
+    expect(orphanage).toEqual(addOrphanageRepositorySpy.orphanageModel)
+  })
 })
