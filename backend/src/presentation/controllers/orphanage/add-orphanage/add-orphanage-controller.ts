@@ -10,7 +10,8 @@ export class AddOrphanageController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const error = this.validation.validate(httpRequest.body)
+      const fields = httpRequest.files?.length === 0 ? httpRequest.body : { ...httpRequest.body, images: httpRequest.files }
+      const error = this.validation.validate(fields)
 
       if (error) {
         return badRequest(error)
