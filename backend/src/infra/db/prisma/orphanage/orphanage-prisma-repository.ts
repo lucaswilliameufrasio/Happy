@@ -35,7 +35,8 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository {
       }
     })
 
-    const orphanageData: OrphanageModel = Object.assign({}, orphanage, { images: orphanage.OrphanageImage })
+    const { OrphanageImage, ...rest } = orphanage
+    const orphanageData: OrphanageModel = Object.assign({}, rest, { images: orphanage.OrphanageImage })
 
     return orphanageData
   }
