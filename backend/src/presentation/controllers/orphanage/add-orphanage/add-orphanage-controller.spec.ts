@@ -5,18 +5,27 @@ import { badRequest, serverError, created } from '@/presentation/helpers/http/ht
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
-const mockRequest = (): HttpRequest => ({
-  body: {
-    name: faker.name.findName(),
-    latitude: Number(faker.address.latitude()),
-    longitude: Number(faker.address.longitude()),
-    whatsapp: faker.phone.phoneNumber(),
-    about: faker.random.words(),
-    instructions: faker.random.words(),
-    open_on_weekend: faker.random.boolean(),
-    approved: faker.random.boolean()
+const mockRequest = (): HttpRequest => {
+  const fileName = faker.random.word()
+  return {
+    body: {
+      name: faker.name.findName(),
+      latitude: Number(faker.address.latitude()),
+      longitude: Number(faker.address.longitude()),
+      whatsapp: faker.phone.phoneNumber(),
+      about: faker.random.words(),
+      instructions: faker.random.words(),
+      open_on_weekend: faker.random.boolean(),
+      approved: faker.random.boolean(),
+      images: [{
+        name: fileName
+      }]
+    },
+    files: [{
+      filename: fileName
+    }]
   }
-})
+}
 
 type SutTypes = {
   sut: AddOrphanageController
@@ -59,6 +68,7 @@ describe('AddOrphanage Controller', () => {
     const { sut, addOrphanageSpy } = makeSut()
 
     const httpRequest = mockRequest()
+
     await sut.handle(httpRequest)
 
     expect(addOrphanageSpy.addOrphanageParams).toEqual(httpRequest.body)
