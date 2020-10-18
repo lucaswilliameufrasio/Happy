@@ -1,6 +1,6 @@
 import { OrphanagePrismaRepository } from './orphanage-prisma-repository'
 import { prisma } from '@/infra/db/prisma/helpers/prisma-helper'
-import { mockAddOrphanageParams, mockOrphanageModel } from '@/domain/test'
+import { mockAddOrphanageParams, mockOrphanageModel, mockOrphanagesModel } from '@/domain/test'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import faker from 'faker'
@@ -13,6 +13,10 @@ const mockAddOrphanagePrisma = (orphanage: AddOrphanageParams): void => {
 
 const mockLoadOrphanageByIdPrisma = (orphanage: OrphanageModel): void => {
   prisma.orphanage.findOne = jest.fn().mockReturnValueOnce(orphanage)
+}
+
+const mockLoadOrphanagesPrisma = (orphanages: OrphanageModel[]): void => {
+  prisma.orphanage.findMany = jest.fn().mockReturnValueOnce(orphanages)
 }
 
 const makeSut = (): OrphanagePrismaRepository => {
@@ -38,6 +42,17 @@ describe('OrphanagePrismaRepository', () => {
       expect(orphanage.whatsapp).toBe(addOrphanageParams.whatsapp)
       expect(orphanage.about).toBe(addOrphanageParams.about)
       expect(orphanage.open_on_weekend).toBe(addOrphanageParams.open_on_weekend)
+    })
+  })
+
+  describe('load()', () => {
+    test('Should load orphanages on success', async () => {
+      mockLoadOrphanagesPrisma(mockOrphanagesModel())
+      const sut = makeSut()
+      const orphanages = await sut.load()
+
+      expect(orphanages.length).toBe(2)
+      expect(orphanages[0].id).toBeTruthy()
     })
   })
 
