@@ -1,6 +1,7 @@
 import { LoadOrphanagesController } from './load-orphanages-controller'
 import { LoadOrphanagesSpy } from '@/presentation/test'
-import { noContent, ok } from '@/presentation/helpers/http/http-helper'
+import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
+import { throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: LoadOrphanagesController
@@ -40,5 +41,14 @@ describe('LoadOrphanages Controller', () => {
     const httpResponse = await sut.handle({})
 
     expect(httpResponse).toEqual(noContent())
+  })
+
+  test('Should return 500 if LoadOrphanages throws', async () => {
+    const { sut, loadOrphanagesSpy } = makeSut()
+    jest.spyOn(loadOrphanagesSpy, 'load').mockImplementationOnce(throwError)
+
+    const httpResponse = await sut.handle({})
+
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
