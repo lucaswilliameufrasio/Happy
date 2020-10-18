@@ -1,6 +1,6 @@
 import { LoadOrphanagesController } from './load-orphanages-controller'
 import { LoadOrphanagesSpy } from '@/presentation/test'
-import { ok } from '@/presentation/helpers/http/http-helper'
+import { noContent, ok } from '@/presentation/helpers/http/http-helper'
 
 type SutTypes = {
   sut: LoadOrphanagesController
@@ -31,5 +31,14 @@ describe('LoadOrphanages Controller', () => {
     const httpResponse = await sut.handle({})
 
     expect(httpResponse).toEqual(ok(loadOrphanagesSpy.orphanageModel))
+  })
+
+  test('Should return 204 if LoadOrphanages return empty', async () => {
+    const { sut, loadOrphanagesSpy } = makeSut()
+
+    loadOrphanagesSpy.orphanageModel = []
+    const httpResponse = await sut.handle({})
+
+    expect(httpResponse).toEqual(noContent())
   })
 })
