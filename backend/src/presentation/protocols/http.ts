@@ -5,4 +5,5 @@ export type HttpResponse = {
 
 export type HttpRequest = {
   body?: any
+  files?: Array<{ [key: string]: string}>
 }

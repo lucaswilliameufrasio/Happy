@@ -17,6 +17,11 @@ export class AddOrphanageController implements Controller {
       }
 
       const { name, latitude, longitude, whatsapp, about, instructions, open_on_weekend: OpenOnWeekend, approved } = httpRequest.body
+
+      const images = httpRequest.files.map(file => ({
+        name: file.filename
+      }))
+
       const orphanage = await this.addOrphanage.add({
         name,
         latitude,
@@ -25,7 +30,8 @@ export class AddOrphanageController implements Controller {
         about,
         instructions,
         open_on_weekend: OpenOnWeekend,
-        approved
+        approved,
+        images
       })
 
       return created(orphanage)
