@@ -1,7 +1,7 @@
 import { DbLoadOrphanageById } from './db-load-orphanage-by-id'
 import { LoadOrphanageByIdRepositorySpy } from '@/data/test'
-import faker from 'faker'
 import { throwError } from '@/domain/test'
+import faker from 'faker'
 
 type SutTypes = {
   sut: DbLoadOrphanageById

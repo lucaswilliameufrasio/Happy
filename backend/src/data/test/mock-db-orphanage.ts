@@ -1,5 +1,5 @@
 import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
-import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository copy'
+import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { mockOrphanageModel } from '@/domain/test/mock-orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
