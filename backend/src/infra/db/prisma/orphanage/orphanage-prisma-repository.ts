@@ -2,8 +2,9 @@ import { addImagesPropertyToOrphanageData, prisma } from '@/infra/db/prisma/help
 import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
+import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository copy'
 
-export class OrphanagePrismaRepository implements AddOrphanageRepository {
+export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOrphanageByIdRepository {
   constructor (private readonly appUrl: string) {}
 
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
@@ -25,14 +26,19 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository {
       }
     })
 
+    const orphanage = await this.loadById(createdOrphanage.id)
+    return orphanage
+  }
+
+  async loadById (id: number): Promise<OrphanageModel> {
     const orphanage = await prisma.orphanage.findOne({
       where: {
-        id: createdOrphanage.id
+        id: id
       },
       include: {
         OrphanageImage: {
           where: {
-            orphanageId: createdOrphanage.id
+            orphanageId: id
           }
         }
       }
