@@ -1,6 +1,4 @@
-import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository copy'
-import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
-import { OrphanageModel } from '../add-orphanage/db-add-orphanage-protocols'
+import { LoadOrphanageByIdRepository, LoadOrphanageById, OrphanageModel } from './db-load-orphanage-by-id-protocols'
 
 export class DbLoadOrphanageById implements LoadOrphanageById {
   constructor (private readonly loadOrphanageByIdRepository: LoadOrphanageByIdRepository) {}
