@@ -31,4 +31,11 @@ describe('DbLoadOrphanageById UseCase', () => {
 
     expect(loadOrphanageByIdRepositorySpy.id).toBe(orphanageId)
   })
+
+  test('Should return an Orphanage on success', async () => {
+    const { sut, loadOrphanageByIdRepositorySpy } = makeSut()
+    const orphanage = await sut.loadById(orphanageId)
+
+    expect(orphanage).toEqual(loadOrphanageByIdRepositorySpy.orphanageModel)
+  })
 })
