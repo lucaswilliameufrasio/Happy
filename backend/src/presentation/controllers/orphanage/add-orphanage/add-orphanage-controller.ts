@@ -24,18 +24,19 @@ export class AddOrphanageController implements Controller {
 
       const orphanage = await this.addOrphanage.add({
         name,
-        latitude,
-        longitude,
+        latitude: Number(latitude),
+        longitude: Number(longitude),
         whatsapp,
         about,
         instructions,
-        open_on_weekend: OpenOnWeekend,
-        approved,
+        open_on_weekend: Boolean(OpenOnWeekend),
+        approved: Boolean(approved),
         images
       })
 
       return created(orphanage)
     } catch (error) {
+      console.error(error)
       return serverError(error)
     }
   }
