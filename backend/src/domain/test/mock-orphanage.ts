@@ -32,3 +32,8 @@ export const mockOrphanageModel = (): OrphanageModel => ({
     name: faker.random.word()
   }]
 })
+
+export const mockOrphanagesModel = (): OrphanageModel[] => [
+  mockOrphanageModel(),
+  mockOrphanageModel()
+]

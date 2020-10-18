@@ -1,7 +1,8 @@
 import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
 import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository'
+import { LoadOrphanagesRepository } from '@/data/protocols/db/orphanage/load-orphanages-repository'
 import { OrphanageModel } from '@/domain/models/orphanage'
-import { mockOrphanageModel } from '@/domain/test/mock-orphanage'
+import { mockOrphanageModel, mockOrphanagesModel } from '@/domain/test/mock-orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 
 export class AddOrphanageRepositorySpy implements AddOrphanageRepository {
@@ -20,6 +21,16 @@ export class LoadOrphanageByIdRepositorySpy implements LoadOrphanageByIdReposito
 
   async loadById (id: number): Promise<OrphanageModel> {
     this.id = id
+    return this.orphanageModel
+  }
+}
+
+export class LoadOrphanagesRepositorySpy implements LoadOrphanagesRepository {
+  orphanageModel = mockOrphanagesModel()
+  calls: number = 0
+
+  async load (): Promise<OrphanageModel[]> {
+    this.calls++
     return this.orphanageModel
   }
 }
