@@ -3,5 +3,4 @@ dist
 .vscode
 coverage
 .env
-uploads/*
-!uploads/.gitkeep
+src/uploads

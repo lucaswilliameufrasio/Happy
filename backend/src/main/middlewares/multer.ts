@@ -4,7 +4,7 @@ import path from 'path'
 
 export const multerConfig = {
   storage: multer.diskStorage({
-    destination: path.join(__dirname, '..', '..', '..', 'uploads'),
+    destination: path.join(__dirname, '..', '..', 'uploads'),
     filename: (req, file, cb) => {
       req.socket.setTimeout(10 * 60 * 1000)
       cb(null, `${Date.now()}-${file.originalname}`)
