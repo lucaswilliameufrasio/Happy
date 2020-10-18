@@ -1,6 +1,7 @@
 import { AddOrphanageController } from './add-orphanage-controller'
 import { HttpRequest } from '@/presentation/protocols/http'
 import { ValidationSpy, AddOrphanageSpy } from '@/presentation/test'
+import { MissingParamError } from '@/presentation/errors'
 import { badRequest, serverError, created } from '@/presentation/helpers/http/http-helper'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
@@ -58,7 +59,7 @@ describe('AddOrphanage Controller', () => {
   test('Should return 400 if Validation fails', async () => {
     const { sut, validationSpy } = makeSut()
 
-    validationSpy.error = new Error()
+    validationSpy.error = new MissingParamError(faker.random.word())
     const httpResponse = await sut.handle(mockRequest())
 
     expect(httpResponse).toEqual(badRequest(validationSpy.error))
