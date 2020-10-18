@@ -18,7 +18,8 @@ describe('AddOrphanage Factory', () => {
       'instructions',
       'approved',
       'open_on_weekend',
-      'whatsapp'
+      'whatsapp',
+      'images'
     ]) {
       validations.push(new RequiredFieldValidation(field))
     }

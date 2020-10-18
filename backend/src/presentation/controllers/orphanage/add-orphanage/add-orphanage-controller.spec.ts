@@ -17,10 +17,7 @@ const mockRequest = (): HttpRequest => {
       about: faker.random.words(),
       instructions: faker.random.words(),
       open_on_weekend: faker.random.boolean(),
-      approved: faker.random.boolean(),
-      images: [{
-        name: fileName
-      }]
+      approved: faker.random.boolean()
     },
     files: [{
       filename: fileName
@@ -52,8 +49,9 @@ describe('AddOrphanage Controller', () => {
 
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
+    const fields = { ...httpRequest.body, images: httpRequest.files }
 
-    expect(validationSpy.input).toEqual(httpRequest.body)
+    expect(validationSpy.input).toEqual(fields)
   })
 
   test('Should return 400 if Validation fails', async () => {
@@ -71,8 +69,10 @@ describe('AddOrphanage Controller', () => {
     const httpRequest = mockRequest()
 
     await sut.handle(httpRequest)
+    const httpRequestValues = { ...httpRequest.body, images: httpRequest.files }
+    delete Object.assign(httpRequestValues.images[0], { name: httpRequestValues.images[0].filename }).filename
 
-    expect(addOrphanageSpy.addOrphanageParams).toEqual(httpRequest.body)
+    expect(addOrphanageSpy.addOrphanageParams).toEqual(httpRequestValues)
   })
 
   test('Should return 500 if AddOrphanage throws', async () => {
