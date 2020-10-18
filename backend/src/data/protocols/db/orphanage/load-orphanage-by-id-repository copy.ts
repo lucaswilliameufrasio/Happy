@@ -1,5 +1,5 @@
 import { OrphanageModel } from '@/domain/models/orphanage'
 
 export interface LoadOrphanageByIdRepository {
-  loadById: (id: number) => Promise<OrphanageModel>
+  loadById: (orphanageId: number) => Promise<OrphanageModel>
 }

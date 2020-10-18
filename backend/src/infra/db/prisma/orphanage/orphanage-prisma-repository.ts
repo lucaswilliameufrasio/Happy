@@ -30,15 +30,15 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
     return orphanage
   }
 
-  async loadById (id: number): Promise<OrphanageModel> {
+  async loadById (orphanageId: number): Promise<OrphanageModel> {
     const orphanage = await prisma.orphanage.findOne({
       where: {
-        id: id
+        id: orphanageId
       },
       include: {
         OrphanageImage: {
           where: {
-            orphanageId: id
+            orphanageId: orphanageId
           }
         }
       }

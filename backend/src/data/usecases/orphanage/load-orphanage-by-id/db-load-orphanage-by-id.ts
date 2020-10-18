@@ -3,8 +3,8 @@ import { LoadOrphanageByIdRepository, LoadOrphanageById, OrphanageModel } from '
 export class DbLoadOrphanageById implements LoadOrphanageById {
   constructor (private readonly loadOrphanageByIdRepository: LoadOrphanageByIdRepository) {}
 
-  async loadById (id: number): Promise<OrphanageModel> {
-    const orphanage = await this.loadOrphanageByIdRepository.loadById(id)
+  async loadById (orphanageId: number): Promise<OrphanageModel> {
+    const orphanage = await this.loadOrphanageByIdRepository.loadById(orphanageId)
     return orphanage
   }
 }
