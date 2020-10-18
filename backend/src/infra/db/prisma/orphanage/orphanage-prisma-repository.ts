@@ -3,10 +3,10 @@ import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphan
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository'
+import { LoadOrphanagesRepository } from '@/data/protocols/db/orphanage/load-orphanages-repository'
 
-export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOrphanageByIdRepository {
+export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOrphanageByIdRepository, LoadOrphanagesRepository {
   constructor (private readonly appUrl: string) {}
-
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
     const { name, latitude, longitude, about, instructions, approved, opening_hours: openingHours, open_on_weekend: openOnWeekend, whatsapp, images } = data
     const createdOrphanage = await prisma.orphanage.create({
@@ -46,5 +46,16 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
 
     const orphanageData = addImagesPropertyToOrphanageData(orphanage, this.appUrl)
     return orphanageData
+  }
+
+  async load (): Promise<OrphanageModel[]> {
+    const orphanages = await prisma.orphanage.findMany({
+      include: {
+        OrphanageImage: true
+      }
+    })
+
+    const orphanagesData = orphanages.map(orphanage => addImagesPropertyToOrphanageData(orphanage, this.appUrl))
+    return orphanagesData
   }
 }
