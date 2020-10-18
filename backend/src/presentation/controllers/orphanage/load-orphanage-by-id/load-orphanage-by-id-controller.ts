@@ -1,4 +1,5 @@
 import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
+import { serverError } from '@/presentation/helpers/http/http-helper'
 import { Controller, HttpRequest, HttpResponse } from './load-orphanage-by-id-controller-protocols'
 
 export class LoadOrphanageByIdController implements Controller {
@@ -7,8 +8,12 @@ export class LoadOrphanageByIdController implements Controller {
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    const { orphanageId } = httpRequest.params
-    await this.loadOrphanageById.loadById(orphanageId)
-    return null
+    try {
+      const { orphanageId } = httpRequest.params
+      await this.loadOrphanageById.loadById(orphanageId)
+      return null
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
