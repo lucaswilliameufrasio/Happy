@@ -4,6 +4,7 @@ import { LoadOrphanagesRepository } from '@/data/protocols/db/orphanage/load-orp
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { mockOrphanageModel, mockOrphanagesModel } from '@/domain/test/mock-orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
+import { LoadOrphanagesByStatusRepository } from '../protocols/db/orphanage/load-orphanages-by-status-repository'
 
 export class AddOrphanageRepositorySpy implements AddOrphanageRepository {
   orphanageModel = mockOrphanageModel()
@@ -31,6 +32,16 @@ export class LoadOrphanagesRepositorySpy implements LoadOrphanagesRepository {
 
   async load (): Promise<OrphanageModel[]> {
     this.calls++
+    return this.orphanageModel
+  }
+}
+
+export class LoadOrphanagesByStatusRepositorySpy implements LoadOrphanagesByStatusRepository {
+  orphanageModel = mockOrphanagesModel()
+  approved: boolean
+
+  async loadByStatus (approvedStatus: boolean): Promise<OrphanageModel[]> {
+    this.approved = approvedStatus
     return this.orphanageModel
   }
 }
