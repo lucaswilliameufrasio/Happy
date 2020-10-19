@@ -1,6 +1,7 @@
 import { UpdateOrphanageController } from './update-orphanage-controller'
-import { HttpRequest } from './update-orphanage-controller-protocols'
+import { HttpRequest, serverError } from './update-orphanage-controller-protocols'
 import { UpdateOrphanageSpy } from '@/presentation/test'
+import { throwError } from '@/domain/test'
 import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
@@ -44,5 +45,14 @@ describe('UpdateOrphanage Controller', () => {
     await sut.handle(httpRequest)
 
     expect(updateOrphanageSpy.updateOrphanageData).toEqual({ updateData: httpRequest.body, orphanageId: httpRequest.params.orphanageId })
+  })
+
+  test('Should return 500 if UpdateOrphanage throws', async () => {
+    const { sut, updateOrphanageSpy } = makeSut()
+    jest.spyOn(updateOrphanageSpy, 'update').mockImplementationOnce(throwError)
+
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
