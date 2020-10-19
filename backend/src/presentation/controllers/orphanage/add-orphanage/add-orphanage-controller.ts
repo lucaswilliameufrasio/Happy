@@ -1,6 +1,5 @@
-import { AddOrphanage } from '@/domain/usecases/orphanage/add-orphanage'
-import { badRequest, serverError, created } from '@/presentation/helpers/http/http-helper'
-import { Controller, HttpRequest, HttpResponse, Validation } from './add-orphanage-controller-protocols'
+
+import { Controller, HttpRequest, HttpResponse, Validation, AddOrphanage, badRequest, created, serverError } from './add-orphanage-controller-protocols'
 
 export class AddOrphanageController implements Controller {
   constructor (
