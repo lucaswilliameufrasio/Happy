@@ -1,6 +1,7 @@
 import { DbLoadOrphanagesByStatus } from './db-load-orphanages-by-status'
 import { LoadOrphanagesByStatusRepositorySpy } from '@/data/test'
 import faker from 'faker'
+import { mockApprovedOrphanagesModel } from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadOrphanagesByStatus
@@ -25,5 +26,15 @@ describe('DbLoadOrphanagesByStatus UseCase', () => {
     await sut.loadByStatus(approved)
 
     expect(loadOrphanagesByStatusRepositorySpy.approved).toBe(approved)
+  })
+
+  test('Should return a list of approved Orphanages on success', async () => {
+    const { sut, loadOrphanagesByStatusRepositorySpy } = makeSut()
+
+    loadOrphanagesByStatusRepositorySpy.orphanageModel = mockApprovedOrphanagesModel()
+
+    const orphanage = await sut.loadByStatus(true)
+
+    expect(orphanage).toEqual(loadOrphanagesByStatusRepositorySpy.orphanageModel)
   })
 })

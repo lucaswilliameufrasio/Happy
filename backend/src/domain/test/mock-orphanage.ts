@@ -37,3 +37,24 @@ export const mockOrphanagesModel = (): OrphanageModel[] => [
   mockOrphanageModel(),
   mockOrphanageModel()
 ]
+
+export const mockApprovedOrphanageModel = (): OrphanageModel => ({
+  id: faker.random.number(),
+  name: faker.name.findName(),
+  latitude: Number(faker.address.latitude()),
+  longitude: Number(faker.address.longitude()),
+  whatsapp: faker.phone.phoneNumber(),
+  about: faker.random.words(),
+  instructions: faker.random.words(),
+  opening_hours: faker.random.words(),
+  open_on_weekend: faker.random.boolean(),
+  approved: true,
+  images: [{
+    name: faker.random.word()
+  }]
+})
+
+export const mockApprovedOrphanagesModel = (): OrphanageModel[] => [
+  mockApprovedOrphanageModel(),
+  mockApprovedOrphanageModel()
+]
