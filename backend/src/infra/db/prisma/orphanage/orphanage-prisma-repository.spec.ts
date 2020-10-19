@@ -1,7 +1,8 @@
 import { OrphanagePrismaRepository } from './orphanage-prisma-repository'
 import { prisma } from '@/infra/db/prisma/helpers/prisma-helper'
-import { mockAddOrphanageParams, mockApprovedOrphanagesModel, mockOrphanageModel, mockOrphanagesModel } from '@/domain/test'
+import { mockAddOrphanageParams, mockApprovedOrphanagesModel, mockOrphanageModel, mockOrphanagesModel, mockUpdateOrphanageParams } from '@/domain/test'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
+import { UpdateOrphanageParams } from '@/domain/usecases/orphanage/update-orphanage'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import faker from 'faker'
 
@@ -17,6 +18,10 @@ const mockLoadOrphanageByIdPrisma = (orphanage: OrphanageModel): void => {
 
 const mockLoadOrphanagesPrisma = (orphanages: OrphanageModel[]): void => {
   prisma.orphanage.findMany = jest.fn().mockReturnValueOnce(orphanages)
+}
+
+const mockUpdateOrphanagePrisma = (updateOrphanageData: UpdateOrphanageParams): void => {
+  prisma.orphanage.update = jest.fn().mockReturnValueOnce(updateOrphanageData.updateData)
 }
 
 const makeSut = (): OrphanagePrismaRepository => {
@@ -80,6 +85,42 @@ describe('OrphanagePrismaRepository', () => {
       expect(orphanages[0].id).toBeTruthy()
       expect(orphanages[0].approved).toBe(true)
       expect(orphanages[1].approved).toBe(true)
+    })
+  })
+
+  describe('update()', () => {
+    test('Should update orphanage on success', async () => {
+      const sut = makeSut()
+      const updateOrphanageData = mockUpdateOrphanageParams()
+      const OrphanageModel: OrphanageModel = {
+        id: updateOrphanageData.orphanageId,
+        name: updateOrphanageData.updateData.name,
+        latitude: updateOrphanageData.updateData.latitude,
+        longitude: updateOrphanageData.updateData.longitude,
+        about: updateOrphanageData.updateData.about,
+        instructions: updateOrphanageData.updateData.instructions,
+        whatsapp: updateOrphanageData.updateData.whatsapp,
+        opening_hours: updateOrphanageData.updateData.opening_hours,
+        open_on_weekend: updateOrphanageData.updateData.open_on_weekend,
+        approved: updateOrphanageData.updateData.approved,
+        images: [{ name: faker.random.word() }]
+      }
+
+      mockLoadOrphanageByIdPrisma(OrphanageModel)
+      mockUpdateOrphanagePrisma(updateOrphanageData)
+
+      await sut.update(updateOrphanageData)
+      const orphanage = await prisma.orphanage.findOne({
+        where: {
+          id: updateOrphanageData.orphanageId
+        },
+        include: {
+          OrphanageImage: true
+        }
+      })
+
+      expect(orphanage).toBeTruthy()
+      expect(orphanage.id).toBeTruthy()
     })
   })
 })
