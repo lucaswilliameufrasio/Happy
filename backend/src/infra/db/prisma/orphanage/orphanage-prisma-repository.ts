@@ -1,12 +1,14 @@
 import { addImagesPropertyToOrphanageData, prisma } from '@/infra/db/prisma/helpers/prisma-helper'
 import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
-import { OrphanageModel } from '@/domain/models/orphanage'
-import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository'
 import { LoadOrphanagesRepository } from '@/data/protocols/db/orphanage/load-orphanages-repository'
 import { LoadOrphanagesByStatusRepository } from '@/data/protocols/db/orphanage/load-orphanages-by-status-repository'
+import { UpdateOrphanageRepository } from '@/data/protocols/db/orphanage/update-orphanage-repository'
+import { OrphanageModel } from '@/domain/models/orphanage'
+import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
+import { UpdateOrphanageParams } from '@/domain/usecases/orphanage/update-orphanage'
 
-export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOrphanageByIdRepository, LoadOrphanagesRepository, LoadOrphanagesByStatusRepository {
+export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOrphanageByIdRepository, LoadOrphanagesRepository, LoadOrphanagesByStatusRepository, UpdateOrphanageRepository {
   constructor (private readonly appUrl: string) {}
 
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
@@ -76,5 +78,14 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
 
     const orphanagesData = orphanages.map(orphanage => addImagesPropertyToOrphanageData(orphanage, this.appUrl))
     return orphanagesData
+  }
+
+  async update (updateOrphanageData: UpdateOrphanageParams): Promise<void> {
+    await prisma.orphanage.update({
+      data: updateOrphanageData.updateData,
+      where: {
+        id: updateOrphanageData.orphanageId
+      }
+    })
   }
 }
