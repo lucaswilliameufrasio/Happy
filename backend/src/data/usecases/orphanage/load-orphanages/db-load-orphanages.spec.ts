@@ -1,5 +1,6 @@
 import { DbLoadOrphanages } from './db-load-orphanages'
 import { LoadOrphanagesRepositorySpy } from '@/data/test'
+import { throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadOrphanages
@@ -30,5 +31,14 @@ describe('DbLoadOrphanages UseCase', () => {
     const orphanage = await sut.load()
 
     expect(orphanage).toEqual(loadOrphanagesRepositorySpy.orphanageModel)
+  })
+
+  test('Should throw if LoadOrphanagesRepository throws', async () => {
+    const { sut, loadOrphanagesRepositorySpy } = makeSut()
+    jest.spyOn(loadOrphanagesRepositorySpy, 'load').mockImplementationOnce(throwError)
+
+    const promise = sut.load()
+
+    await expect(promise).rejects.toThrow()
   })
 })
