@@ -1,7 +1,7 @@
 import { UpdateOrphanageController } from './update-orphanage-controller'
-import { HttpRequest, serverError, noContent, badRequest } from './update-orphanage-controller-protocols'
-import { MissingParamError } from '@/presentation/errors'
-import { UpdateOrphanageSpy, ValidationSpy } from '@/presentation/test'
+import { HttpRequest, serverError, noContent, badRequest, forbidden } from './update-orphanage-controller-protocols'
+import { InvalidParamError, MissingParamError } from '@/presentation/errors'
+import { LoadOrphanageByIdSpy, UpdateOrphanageSpy, ValidationSpy } from '@/presentation/test'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
@@ -25,17 +25,20 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: UpdateOrphanageController
   updateOrphanageSpy: UpdateOrphanageSpy
+  loadOrphanageByIdSpy: LoadOrphanageByIdSpy
   validationSpy: ValidationSpy
 }
 
 const makeSut = (): SutTypes => {
   const updateOrphanageSpy = new UpdateOrphanageSpy()
+  const loadOrphanageByIdSpy = new LoadOrphanageByIdSpy()
   const validationSpy = new ValidationSpy()
-  const sut = new UpdateOrphanageController(validationSpy, updateOrphanageSpy)
+  const sut = new UpdateOrphanageController(validationSpy, updateOrphanageSpy, loadOrphanageByIdSpy)
 
   return {
     sut,
     updateOrphanageSpy,
+    loadOrphanageByIdSpy,
     validationSpy
   }
 }
@@ -68,6 +71,15 @@ describe('UpdateOrphanage Controller', () => {
     await sut.handle(httpRequest)
 
     expect(updateOrphanageSpy.updateOrphanageData).toEqual({ updateData: httpRequest.body, orphanageId: httpRequest.params.orphanageId })
+  })
+
+  test('Should return 403 if LoadOrphanageById returns null', async () => {
+    const { sut, loadOrphanageByIdSpy } = makeSut()
+
+    loadOrphanageByIdSpy.orphanageModel = null
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('orphanageId')))
   })
 
   test('Should return 500 if UpdateOrphanage throws', async () => {
