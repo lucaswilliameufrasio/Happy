@@ -4,6 +4,7 @@ import { AddOrphanage, AddOrphanageParams } from '@/domain/usecases/orphanage/ad
 import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
 import { LoadOrphanagesByStatus } from '@/domain/usecases/orphanage/load-orphanages-by-status'
 import { LoadOrphanages } from '@/domain/usecases/orphanage/load-orphanages'
+import { UpdateOrphanage, UpdateOrphanageParams } from '@/domain/usecases/orphanage/update-orphanage'
 
 export class AddOrphanageSpy implements AddOrphanage {
   orphanageModel = mockOrphanageModel()
@@ -42,5 +43,14 @@ export class LoadOrphanagesByStatusSpy implements LoadOrphanagesByStatus {
   async loadByStatus (approvedStatus: boolean): Promise<OrphanageModel[]> {
     this.approvedStatus = approvedStatus
     return this.orphanageModel
+  }
+}
+
+export class UpdateOrphanageSpy implements UpdateOrphanage {
+  updateOrphanageData: UpdateOrphanageParams
+  id: number
+
+  async update (updateOrphanageData: UpdateOrphanageParams): Promise<void> {
+    this.updateOrphanageData = updateOrphanageData
   }
 }
