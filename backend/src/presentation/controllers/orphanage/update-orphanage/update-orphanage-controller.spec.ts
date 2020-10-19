@@ -1,5 +1,6 @@
 import { UpdateOrphanageController } from './update-orphanage-controller'
-import { HttpRequest, serverError, noContent } from './update-orphanage-controller-protocols'
+import { HttpRequest, serverError, noContent, badRequest } from './update-orphanage-controller-protocols'
+import { MissingParamError } from '@/presentation/errors'
 import { UpdateOrphanageSpy, ValidationSpy } from '@/presentation/test'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
@@ -48,6 +49,15 @@ describe('UpdateOrphanage Controller', () => {
     const fields = { ...httpRequest.body, orphanageId: httpRequest.params }
 
     expect(validationSpy.input).toEqual(fields)
+  })
+
+  test('Should return 400 if Validation fails', async () => {
+    const { sut, validationSpy } = makeSut()
+
+    validationSpy.error = new MissingParamError(faker.random.word())
+    const httpResponse = await sut.handle(mockRequest())
+
+    expect(httpResponse).toEqual(badRequest(validationSpy.error))
   })
 
   test('Should call UpdateOrphanage with correct values', async () => {
