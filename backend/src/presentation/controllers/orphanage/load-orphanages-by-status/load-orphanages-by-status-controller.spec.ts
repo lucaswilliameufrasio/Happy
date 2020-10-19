@@ -1,5 +1,5 @@
 import { LoadOrphanagesByStatusController } from './load-orphanages-by-status-controller'
-import { HttpRequest } from '@/presentation/protocols'
+import { HttpRequest, ok } from './load-orphanages-by-status-controller-protocols'
 import { LoadOrphanagesByStatusSpy } from '@/presentation/test'
 import faker from 'faker'
 
@@ -32,5 +32,14 @@ describe('LoadOrphanagesByStatus Controller', () => {
     await sut.handle(httpRequest)
 
     expect(loadOrphanagesByStatusSpy.approvedStatus).toBe(httpRequest.query.approvedStatus)
+  })
+
+  test('Should return 200 on success', async () => {
+    const { sut, loadOrphanagesByStatusSpy } = makeSut()
+
+    const httpRequest = mockRequest()
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(ok(loadOrphanagesByStatusSpy.orphanageModel))
   })
 })
