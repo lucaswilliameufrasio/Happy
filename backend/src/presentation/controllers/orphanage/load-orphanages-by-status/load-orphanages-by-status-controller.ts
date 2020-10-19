@@ -14,7 +14,8 @@ export class LoadOrphanagesByStatusController implements Controller {
       if (approvedStatus !== 'true' && approvedStatus !== 'false') {
         return forbidden(new InvalidParamError('orphanageStatus'))
       }
-      const orphanages = await this.loadOrphanagesByStatus.loadByStatus(Boolean(approvedStatus))
+      const status = approvedStatus === 'true'
+      const orphanages = await this.loadOrphanagesByStatus.loadByStatus(status)
 
       return orphanages.length ? ok(orphanages) : noContent()
     } catch (error) {

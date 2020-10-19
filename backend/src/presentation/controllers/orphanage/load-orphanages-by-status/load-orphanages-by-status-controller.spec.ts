@@ -31,8 +31,9 @@ describe('LoadOrphanagesByStatus Controller', () => {
 
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
+    httpRequest.query.approvedStatus = httpRequest.query.approvedStatus === 'true'
 
-    expect(loadOrphanagesByStatusSpy.approvedStatus).toBe(Boolean(httpRequest.query.approvedStatus))
+    expect(loadOrphanagesByStatusSpy.approvedStatus).toBe(httpRequest.query.approvedStatus)
   })
 
   test('Should return 403 if orphanageStatus is not true or false', async () => {

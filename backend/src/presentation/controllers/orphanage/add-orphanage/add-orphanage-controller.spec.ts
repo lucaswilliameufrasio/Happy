@@ -16,8 +16,8 @@ const mockRequest = (): HttpRequest => {
       about: faker.random.words(),
       instructions: faker.random.words(),
       opening_hours: faker.random.words(),
-      open_on_weekend: faker.random.boolean(),
-      approved: faker.random.boolean()
+      open_on_weekend: String(faker.random.boolean()),
+      approved: false
     },
     files: [{
       filename: fileName
@@ -69,6 +69,7 @@ describe('AddOrphanage Controller', () => {
     const httpRequest = mockRequest()
 
     await sut.handle(httpRequest)
+    httpRequest.body.open_on_weekend = httpRequest.body.open_on_weekend === 'true'
     const httpRequestValues = { ...httpRequest.body, images: httpRequest.files }
     delete Object.assign(httpRequestValues.images[0], { name: httpRequestValues.images[0].filename }).filename
 

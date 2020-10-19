@@ -16,11 +16,13 @@ export class AddOrphanageController implements Controller {
         return badRequest(error)
       }
 
-      const { name, latitude, longitude, whatsapp, about, instructions, opening_hours: openingHours, open_on_weekend: openOnWeekend, approved } = httpRequest.body
+      const { name, latitude, longitude, whatsapp, about, instructions, opening_hours: openingHours, open_on_weekend: openOnWeekend } = httpRequest.body
 
       const images = httpRequest.files.map(file => ({
         name: file.filename
       }))
+
+      const willOpen = openOnWeekend === 'true'
 
       const orphanage = await this.addOrphanage.add({
         name,
@@ -30,8 +32,8 @@ export class AddOrphanageController implements Controller {
         about,
         instructions,
         opening_hours: openingHours,
-        open_on_weekend: Boolean(openOnWeekend),
-        approved: Boolean(approved),
+        open_on_weekend: willOpen,
+        approved: false,
         images
       })
 
