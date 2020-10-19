@@ -7,4 +7,5 @@ export type HttpRequest = {
   body?: any
   files?: any
   params?: any
+  query?: any
 }
