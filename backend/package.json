@@ -13,7 +13,10 @@
     "test:unit": "yarn test --watch -c jest-unit-config.js",
     "test:integration": "yarn test --watch -c jest-integration-config.js",
     "test:staged": "yarn test --findRelatedTests",
-    "test:ci": "yarn test --coverage"
+    "test:ci": "yarn test --coverage",
+    "migrate:save": "prisma migrate save --experimental",
+    "migrate:up": "prisma migrate up --experimental",
+    "migrate:down": "prisma migrate down --experimental"
   },
   "devDependencies": {
     "@prisma/cli": "^2.9.0",
