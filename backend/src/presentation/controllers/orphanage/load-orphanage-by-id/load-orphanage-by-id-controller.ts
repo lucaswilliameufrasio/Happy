@@ -1,7 +1,4 @@
-import { Controller, HttpRequest, HttpResponse } from './load-orphanage-by-id-controller-protocols'
-import { forbidden, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { InvalidParamError } from '@/presentation/errors'
-import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
+import { Controller, HttpRequest, HttpResponse, forbidden, ok, serverError, InvalidParamError, LoadOrphanageById } from './load-orphanage-by-id-controller-protocols'
 
 export class LoadOrphanageByIdController implements Controller {
   constructor (
