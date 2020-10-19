@@ -1,6 +1,6 @@
 import { UpdateOrphanageController } from './update-orphanage-controller'
 import { HttpRequest, serverError, noContent } from './update-orphanage-controller-protocols'
-import { UpdateOrphanageSpy } from '@/presentation/test'
+import { UpdateOrphanageSpy, ValidationSpy } from '@/presentation/test'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
@@ -24,19 +24,32 @@ const mockRequest = (): HttpRequest => ({
 type SutTypes = {
   sut: UpdateOrphanageController
   updateOrphanageSpy: UpdateOrphanageSpy
+  validationSpy: ValidationSpy
 }
 
 const makeSut = (): SutTypes => {
   const updateOrphanageSpy = new UpdateOrphanageSpy()
-  const sut = new UpdateOrphanageController(updateOrphanageSpy)
+  const validationSpy = new ValidationSpy()
+  const sut = new UpdateOrphanageController(validationSpy, updateOrphanageSpy)
 
   return {
     sut,
-    updateOrphanageSpy
+    updateOrphanageSpy,
+    validationSpy
   }
 }
 
 describe('UpdateOrphanage Controller', () => {
+  test('Shoud call Validation with correct values', async () => {
+    const { sut, validationSpy } = makeSut()
+
+    const httpRequest = mockRequest()
+    await sut.handle(httpRequest)
+    const fields = { ...httpRequest.body, orphanageId: httpRequest.params }
+
+    expect(validationSpy.input).toEqual(fields)
+  })
+
   test('Should call UpdateOrphanage with correct values', async () => {
     const { sut, updateOrphanageSpy } = makeSut()
 
