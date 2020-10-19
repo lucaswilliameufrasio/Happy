@@ -2,7 +2,8 @@ import { OrphanageModel } from '@/domain/models/orphanage'
 import { mockOrphanageModel, mockOrphanagesModel } from '@/domain/test'
 import { AddOrphanage, AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import { LoadOrphanageById } from '@/domain/usecases/orphanage/load-orphanage-by-id'
-import { LoadOrphanages } from '../controllers/orphanage/load-orphanages/load-orphanages-controller-protocols'
+import { LoadOrphanagesByStatus } from '@/domain/usecases/orphanage/load-orphanages-by-status'
+import { LoadOrphanages } from '@/domain/usecases/orphanage/load-orphanages'
 
 export class AddOrphanageSpy implements AddOrphanage {
   orphanageModel = mockOrphanageModel()
@@ -30,6 +31,16 @@ export class LoadOrphanagesSpy implements LoadOrphanages {
 
   async load (): Promise<OrphanageModel[]> {
     this.calls++
+    return this.orphanageModel
+  }
+}
+
+export class LoadOrphanagesByStatusSpy implements LoadOrphanagesByStatus {
+  orphanageModel = mockOrphanagesModel()
+  approvedStatus: boolean
+
+  async loadByStatus (approvedStatus: boolean): Promise<OrphanageModel[]> {
+    this.approvedStatus = approvedStatus
     return this.orphanageModel
   }
 }
