@@ -1,6 +1,6 @@
 import { LoadOrphanagesController } from './load-orphanages-controller'
+import { noContent, ok, serverError } from './load-orphanages-controller-protocols'
 import { LoadOrphanagesSpy } from '@/presentation/test'
-import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
 import { throwError } from '@/domain/test'
 
 type SutTypes = {

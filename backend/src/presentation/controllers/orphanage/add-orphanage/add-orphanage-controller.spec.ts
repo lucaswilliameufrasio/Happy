@@ -1,8 +1,7 @@
 import { AddOrphanageController } from './add-orphanage-controller'
-import { HttpRequest } from '@/presentation/protocols/http'
+import { HttpRequest, badRequest, serverError, created } from './add-orphanage-controller-protocols'
 import { ValidationSpy, AddOrphanageSpy } from '@/presentation/test'
 import { MissingParamError } from '@/presentation/errors'
-import { badRequest, serverError, created } from '@/presentation/helpers/http/http-helper'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 

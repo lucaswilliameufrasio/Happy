@@ -1,8 +1,6 @@
 import { LoadOrphanageByIdController } from './load-orphanage-by-id-controller'
-import { HttpRequest } from '@/presentation/protocols/http'
+import { HttpRequest, ok, serverError, forbidden, InvalidParamError } from './load-orphanage-by-id-controller-protocols'
 import { LoadOrphanageByIdSpy } from '@/presentation/test'
-import { ok, serverError, forbidden } from '@/presentation/helpers/http/http-helper'
-import { InvalidParamError } from '@/presentation/errors'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
