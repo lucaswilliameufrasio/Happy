@@ -15,7 +15,7 @@ export class UpdateOrphanageController implements Controller {
         return badRequest(error)
       }
 
-      await this.updateOrphanage.update({ orphanageId: httpRequest.params.orphanageId, updateData: httpRequest.body })
+      await this.updateOrphanage.update({ orphanageId: Number(httpRequest.params.orphanageId), updateData: httpRequest.body })
       return noContent()
     } catch (error) {
       return serverError(error)
