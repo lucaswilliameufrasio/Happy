@@ -15,16 +15,3 @@ export type OrphanageModel = {
   approved: boolean
   images: OrphanageImageModel[]
 }
-
-export type UpdateOrphanageModel = {
-  name?: string
-  latitude?: number
-  longitude?: number
-  whatsapp?: string
-  about?: string
-  instructions?: string
-  opening_hours?: string
-  open_on_weekend?: boolean
-  approved?: boolean
-  images?: OrphanageImageModel[]
-}

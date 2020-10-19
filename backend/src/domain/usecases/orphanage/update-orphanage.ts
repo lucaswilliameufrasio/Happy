@@ -1,8 +1,8 @@
-import { UpdateOrphanageModel } from '@/domain/models/orphanage'
+import { OrphanageModel } from '@/domain/models/orphanage'
 
 export type UpdateOrphanageParams = {
   orphanageId: number
-  updateData: UpdateOrphanageModel
+  updateData: Omit<OrphanageModel, 'id'|'images'>
 }
 
 export interface UpdateOrphanage {

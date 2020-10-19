@@ -29,10 +29,7 @@ export const mockUpdateOrphanageParams = (): UpdateOrphanageParams => ({
     instructions: faker.random.words(),
     open_on_weekend: faker.random.boolean(),
     opening_hours: faker.random.words(),
-    approved: faker.random.boolean(),
-    images: [{
-      name: faker.random.word()
-    }]
+    approved: faker.random.boolean()
   }
 })
 
