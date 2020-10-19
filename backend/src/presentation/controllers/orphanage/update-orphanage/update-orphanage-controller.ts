@@ -1,9 +1,10 @@
-import { Validation, UpdateOrphanage, Controller, HttpRequest, HttpResponse, serverError, noContent, badRequest } from './update-orphanage-controller-protocols'
+import { Validation, UpdateOrphanage, LoadOrphanageById, Controller, HttpRequest, HttpResponse, serverError, noContent, badRequest, forbidden, InvalidParamError } from './update-orphanage-controller-protocols'
 
 export class UpdateOrphanageController implements Controller {
   constructor (
     private readonly validation: Validation,
-    private readonly updateOrphanage: UpdateOrphanage
+    private readonly updateOrphanage: UpdateOrphanage,
+    private readonly loadOrphanageById: LoadOrphanageById
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
@@ -15,6 +16,10 @@ export class UpdateOrphanageController implements Controller {
         return badRequest(error)
       }
 
+      const orphanage = await this.loadOrphanageById.loadById(Number(httpRequest.params.orphanageId))
+      if (!orphanage) {
+        return forbidden(new InvalidParamError('orphanageId'))
+      }
       await this.updateOrphanage.update({ orphanageId: Number(httpRequest.params.orphanageId), updateData: httpRequest.body })
       return noContent()
     } catch (error) {
