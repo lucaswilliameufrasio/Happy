@@ -1,4 +1,4 @@
-import { Validation, UpdateOrphanage, Controller, HttpRequest, HttpResponse, serverError, noContent } from './update-orphanage-controller-protocols'
+import { Validation, UpdateOrphanage, Controller, HttpRequest, HttpResponse, serverError, noContent, badRequest } from './update-orphanage-controller-protocols'
 
 export class UpdateOrphanageController implements Controller {
   constructor (
@@ -9,7 +9,11 @@ export class UpdateOrphanageController implements Controller {
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
       const fields = { ...httpRequest.body, orphanageId: httpRequest.params }
-      this.validation.validate(fields)
+      const error = this.validation.validate(fields)
+
+      if (error) {
+        return badRequest(error)
+      }
 
       await this.updateOrphanage.update({ orphanageId: httpRequest.params.orphanageId, updateData: httpRequest.body })
       return noContent()
