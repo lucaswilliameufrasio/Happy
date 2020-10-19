@@ -1,5 +1,4 @@
-import { noContent, ok, serverError } from '@/presentation/helpers/http/http-helper'
-import { LoadOrphanages,Controller, HttpRequest, HttpResponse } from './load-orphanages-controller-protocols'
+import { LoadOrphanages,Controller, HttpRequest, HttpResponse, noContent, ok, serverError } from './load-orphanages-controller-protocols'
 
 export class LoadOrphanagesController implements Controller {
   constructor (
