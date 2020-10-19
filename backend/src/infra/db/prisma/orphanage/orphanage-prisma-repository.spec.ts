@@ -1,6 +1,6 @@
 import { OrphanagePrismaRepository } from './orphanage-prisma-repository'
 import { prisma } from '@/infra/db/prisma/helpers/prisma-helper'
-import { mockAddOrphanageParams, mockOrphanageModel, mockOrphanagesModel } from '@/domain/test'
+import { mockAddOrphanageParams, mockApprovedOrphanagesModel, mockOrphanageModel, mockOrphanagesModel } from '@/domain/test'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import faker from 'faker'
@@ -67,6 +67,19 @@ describe('OrphanagePrismaRepository', () => {
 
       expect(orphanage).toBeTruthy()
       expect(orphanage.id).toBeTruthy()
+    })
+  })
+
+  describe('loadByStatus()', () => {
+    test('Should load orphanages by status on success', async () => {
+      mockLoadOrphanagesPrisma(mockApprovedOrphanagesModel())
+      const sut = makeSut()
+      const orphanages = await sut.loadByStatus(true)
+
+      expect(orphanages.length).toBe(2)
+      expect(orphanages[0].id).toBeTruthy()
+      expect(orphanages[0].approved).toBe(true)
+      expect(orphanages[1].approved).toBe(true)
     })
   })
 })
