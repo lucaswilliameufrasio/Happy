@@ -1,12 +1,12 @@
 import { LoadOrphanagesByStatusController } from './load-orphanages-by-status-controller'
-import { HttpRequest, ok, noContent, serverError } from './load-orphanages-by-status-controller-protocols'
+import { HttpRequest, ok, noContent, serverError, InvalidParamError, forbidden } from './load-orphanages-by-status-controller-protocols'
 import { LoadOrphanagesByStatusSpy } from '@/presentation/test'
 import { throwError } from '@/domain/test'
 import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
   query: {
-    approvedStatus: faker.random.boolean()
+    approvedStatus: String(faker.random.boolean())
   }
 })
 
@@ -32,7 +32,19 @@ describe('LoadOrphanagesByStatus Controller', () => {
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
 
-    expect(loadOrphanagesByStatusSpy.approvedStatus).toBe(httpRequest.query.approvedStatus)
+    expect(loadOrphanagesByStatusSpy.approvedStatus).toBe(Boolean(httpRequest.query.approvedStatus))
+  })
+
+  test('Should return 403 if orphanageStatus is not true or false', async () => {
+    const { sut } = makeSut()
+
+    const httpResponse = await sut.handle({
+      query: {
+        approvedStatus: 'a'
+      }
+    })
+
+    expect(httpResponse).toEqual(forbidden(new InvalidParamError('orphanageStatus')))
   })
 
   test('Should return 200 on success', async () => {
