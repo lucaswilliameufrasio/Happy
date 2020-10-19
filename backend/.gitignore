@@ -4,3 +4,4 @@ dist
 coverage
 .env
 src/uploads
+data
