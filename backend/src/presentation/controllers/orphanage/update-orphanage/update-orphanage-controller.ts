@@ -8,7 +8,7 @@ export class UpdateOrphanageController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     try {
-      const fields = { ...httpRequest.body, orphanageId: httpRequest.params }
+      const fields = { ...httpRequest.body, orphanageId: httpRequest.params.orphanageId }
       const error = this.validation.validate(fields)
 
       if (error) {

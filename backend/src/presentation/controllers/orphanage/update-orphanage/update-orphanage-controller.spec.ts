@@ -46,7 +46,7 @@ describe('UpdateOrphanage Controller', () => {
 
     const httpRequest = mockRequest()
     await sut.handle(httpRequest)
-    const fields = { ...httpRequest.body, orphanageId: httpRequest.params }
+    const fields = { ...httpRequest.body, orphanageId: httpRequest.params.orphanageId }
 
     expect(validationSpy.input).toEqual(fields)
   })
