@@ -52,6 +52,9 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
 
   async load (): Promise<OrphanageModel[]> {
     const orphanages = await prisma.orphanage.findMany({
+      where: {
+        approved: true
+      },
       include: {
         OrphanageImage: true
       }
