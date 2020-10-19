@@ -10,7 +10,6 @@ export const makeAddOrphanageValidation = (): ValidationComposite => {
     'longitude',
     'about',
     'instructions',
-    'approved',
     'opening_hours',
     'open_on_weekend',
     'whatsapp',
