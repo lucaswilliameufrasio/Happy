@@ -24,4 +24,11 @@ describe('DbLoadOrphanages UseCase', () => {
 
     expect(loadOrphanagesRepositorySpy.calls).toBe(1)
   })
+
+  test('Should return a list of Orphanages on success', async () => {
+    const { sut, loadOrphanagesRepositorySpy } = makeSut()
+    const orphanage = await sut.load()
+
+    expect(orphanage).toEqual(loadOrphanagesRepositorySpy.orphanageModel)
+  })
 })
