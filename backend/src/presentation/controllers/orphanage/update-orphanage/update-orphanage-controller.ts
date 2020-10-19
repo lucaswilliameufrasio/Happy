@@ -1,12 +1,16 @@
-import { UpdateOrphanageRepository, Controller, HttpRequest, HttpResponse } from './update-orphanage-controller-protocols'
+import { UpdateOrphanage, Controller, HttpRequest, HttpResponse, serverError } from './update-orphanage-controller-protocols'
 
 export class UpdateOrphanageController implements Controller {
   constructor (
-    private readonly updateOrphanageRepository: UpdateOrphanageRepository
+    private readonly updateOrphanage: UpdateOrphanage
   ) {}
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-    await this.updateOrphanageRepository.update({ orphanageId: httpRequest.params.orphanageId, updateData: httpRequest.body })
-    return null
+    try {
+      await this.updateOrphanage.update({ orphanageId: httpRequest.params.orphanageId, updateData: httpRequest.body })
+      return null
+    } catch (error) {
+      return serverError(error)
+    }
   }
 }
