@@ -1,4 +1,4 @@
-import { LoadOrphanagesByStatus, Controller, HttpRequest, HttpResponse } from './load-orphanages-by-status-controller-protocols'
+import { LoadOrphanagesByStatus, Controller, HttpRequest, HttpResponse, ok } from './load-orphanages-by-status-controller-protocols'
 
 export class LoadOrphanagesByStatusController implements Controller {
   constructor (
@@ -7,8 +7,8 @@ export class LoadOrphanagesByStatusController implements Controller {
 
   async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
     const { approvedStatus } = httpRequest.query
-    await this.loadOrphanagesByStatus.loadByStatus(Boolean(approvedStatus))
+    const orphanages = await this.loadOrphanagesByStatus.loadByStatus(Boolean(approvedStatus))
 
-    return null
+    return ok(orphanages)
   }
 }
