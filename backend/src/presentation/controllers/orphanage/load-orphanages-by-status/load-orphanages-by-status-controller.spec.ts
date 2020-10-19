@@ -1,6 +1,7 @@
 import { LoadOrphanagesByStatusController } from './load-orphanages-by-status-controller'
-import { HttpRequest, ok, noContent } from './load-orphanages-by-status-controller-protocols'
+import { HttpRequest, ok, noContent, serverError } from './load-orphanages-by-status-controller-protocols'
 import { LoadOrphanagesByStatusSpy } from '@/presentation/test'
+import { throwError } from '@/domain/test'
 import faker from 'faker'
 
 const mockRequest = (): HttpRequest => ({
@@ -51,5 +52,15 @@ describe('LoadOrphanagesByStatus Controller', () => {
     const httpResponse = await sut.handle(httpRequest)
 
     expect(httpResponse).toEqual(noContent())
+  })
+
+  test('Should return 500 if LoadOrphanagesByStatus throws', async () => {
+    const { sut, loadOrphanagesByStatusSpy } = makeSut()
+    jest.spyOn(loadOrphanagesByStatusSpy, 'loadByStatus').mockImplementationOnce(throwError)
+
+    const httpRequest = mockRequest()
+    const httpResponse = await sut.handle(httpRequest)
+
+    expect(httpResponse).toEqual(serverError(new Error()))
   })
 })
