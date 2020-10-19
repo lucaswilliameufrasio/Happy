@@ -1,0 +1,30 @@
+version: "3"
+services:
+  postgres:
+    container_name: pg-happy
+    image: postgres:12
+    restart: always
+    environment: 
+      - POSTGRES_PASSWORD=happy
+      - POSTGRES_DB=happy
+    volumes:
+      - ./data:/var/lib/postgresql/data
+    ports:
+      - "5439:5432"
+  api:
+    container_name: happy-api-container
+    image: node:12
+    working_dir: /usr/app/happy-backend
+    restart: always
+    command: bash -c "npm install --only=prod && npx prisma migrate up --experimental && npm run debug"
+    environment:
+      - DATABASE_URL=postgresql://postgres:happy@postgres:5432/happy?schema=public
+    volumes:
+      - ./prisma/:/usr/app/happy-backend/prisma/
+      - ./dist/:/usr/app/happy-backend/dist/
+      - ./package.json:/usr/app/happy-backend/package.json
+    ports:
+      - "7777:7777"
+      - "9222:9222"
+    links:
+      - postgres
