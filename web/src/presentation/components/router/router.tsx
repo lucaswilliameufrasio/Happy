@@ -1,7 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import Landing from '@/presentation/pages/landing/landing'
-import OrphanagesMap from '@/presentation/pages/orphanages-map/orphanages-map'
+import { Landing, OrphanagesMap } from '@/presentation/pages'
 
 function Routes () {
   return (
