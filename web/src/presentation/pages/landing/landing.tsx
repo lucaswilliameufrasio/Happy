@@ -2,7 +2,6 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import { FiArrowRight } from 'react-icons/fi'
 
-import '@/presentation/styles/global.css'
 import './landing.css'
 
 import logoImg from '@/presentation/assets/images/logo.svg'
