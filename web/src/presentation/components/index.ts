@@ -1,2 +1,7 @@
 export { default as Routes } from './router/router'
 export { default as Sidebar } from './sidebar/sidebar'
+export { default as FormMap } from './form-map/form-map'
+export { default as FormButtonSelect } from './form-button-select/form-button-select'
+export { default as FormImagesInput } from './form-images-input/form-images-input'
+export { default as FormInput } from './form-input/form-input'
+export { default as FormTextarea } from './form-textarea/form-textarea'

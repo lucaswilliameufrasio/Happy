@@ -44,7 +44,7 @@
     z-index: 5;
 }
 
-#page-map .create-orphanage {
+#page-map .add-orphanage {
     position: absolute;
     right: 40px;
     bottom: 40px;
@@ -63,7 +63,7 @@
     transition: background-color 0.2s;
 }
 
-#page-map .create-orphanage:hover {
+#page-map .add-orphanage:hover {
     background: #17D6EB;
 }
 

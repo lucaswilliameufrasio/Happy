@@ -46,7 +46,7 @@ export default function Orphanage () {
 
             <div className="map-container">
               <Map
-                center={[-27.2092052,-49.6401092]}
+                center={[-3.2081546, -52.2261614]}
                 zoom={16}
                 style={{ width: '100%', height: 280 }}
                 dragging={false}
@@ -58,7 +58,7 @@ export default function Orphanage () {
                 <TileLayer
                   url="https://a.tile.openstreetmap.org/{z}/{x}/{y}.png"
                 />
-                <Marker interactive={false} icon={leafletMapIcon} position={[-27.2092052,-49.6401092]} />
+                <Marker interactive={false} icon={leafletMapIcon} position={[-3.2081546, -52.2261614]} />
               </Map>
 
               <footer>

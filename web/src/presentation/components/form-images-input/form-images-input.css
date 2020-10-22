@@ -1,0 +1,83 @@
+.image-input-block {
+  margin-top: 24px;
+}
+
+.image-input-block label {
+  display: flex;
+  color: #8fa7b3;
+  margin-bottom: 8px;
+  line-height: 24px;
+}
+
+.image-input-block .images-span-error {
+  font-size: 18px;
+  color: red;
+  margin-left: 10px;
+  line-height: 30px;
+}
+
+.image-input-block input {
+  height: 64px;
+  padding: 0 16px;
+  width: 100%;
+  background: #f5f8fa;
+  border: 1px solid #d3e2e5;
+  border-radius: 20px;
+  outline: none;
+  color: #5c8599;
+}
+
+.image-input-block .images-container {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  grid-gap: 16px;
+}
+
+.image-input-block .images-container .image-container {
+  position: relative;
+  width: 100%;
+  height: 96px;
+}
+
+.image-input-block .images-container .image-container img {
+  width: 100%;
+  height: 96px;
+  object-fit: cover;
+  border-radius: 20px;
+}
+
+.image-input-block .images-container .image-container .remove-image {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  border: 1px solid #d3e2e5;
+  border-radius: 0px 20px;
+  box-sizing: border-box;
+  cursor: pointer;
+  right: 0;
+  top: 0;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-input-block .new-image {
+  height: 96px;
+  background: #f5f8fa;
+  border: 1px dashed #96d2f0;
+  border-radius: 20px;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.image-input-block .new-image-highlighted-error {
+  border: 1px solid red;
+}
+
+.image-input-block input[type="file"] {
+  display: none;
+}
