@@ -1,19 +1,24 @@
 import React, { useState } from 'react'
-import Context from '@/presentation/contexts/form/form-context'
 
+import { Validation } from '@/presentation/protocols'
+import Context from '@/presentation/contexts/form/form-context'
 import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect } from '@/presentation/components'
 
 import './add-orphanage.css'
 
-export default function AddOrphanage () {
+type Props = {
+  validation: Validation
+}
+
+function AddOrphanage ({ validation }: Props) {
   const [state, setState] = useState({
     name: '',
     about: '',
     whatsapp: '',
     images: [],
     instructions: '',
-    opening_hours: '',
-    open_on_weekends: true,
+    openingHours: '',
+    openOnWeekends: true,
     position: {
       latitude: null,
       longitude: null
@@ -23,10 +28,40 @@ export default function AddOrphanage () {
     whatsappError: null,
     imagesError: null,
     instructionsError: null,
-    opening_hoursError: null,
-    open_on_weekendsError: null,
+    openingHoursError: null,
+    openOnWeekendsError: null,
     positionError: null
   })
+
+  async function validateForm () {
+    const { name, about, whatsapp, images, instructions, openOnWeekends, openingHours, position } = state
+    const formData = { name, about, whatsapp, images, instructions, openOnWeekends, openingHours, position }
+    const nameError = validation.validate('name', formData)
+    const aboutError = validation.validate('about', formData)
+    const whatsappError = validation.validate('whatsapp', formData)
+    const imagesError = validation.validate('images', formData)
+    const instructionsError = validation.validate('instructions', formData)
+    const openOnWeekendsError = validation.validate('openOnWeekends', formData)
+    const openingHoursError = validation.validate('openingHours', formData)
+    const positionError = validation.validate('position', formData)
+
+    setState({
+      ...state,
+      nameError,
+      aboutError,
+      whatsappError,
+      imagesError,
+      instructionsError,
+      openOnWeekendsError,
+      openingHoursError,
+      positionError
+    })
+  }
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    event.preventDefault()
+    await validateForm()
+  }
 
   return (
     <div id="page-add-orphanage">
@@ -35,17 +70,17 @@ export default function AddOrphanage () {
       <main>
         <Context.Provider value={{ state, setState }} >
 
-          <form className="add-orphanage-form">
+          <form data-testid="form" className="add-orphanage-form" onSubmit={handleSubmit}>
             <fieldset>
               <legend>Dados</legend>
 
               <FormMap name="position"/>
 
-              <FormInput name="name" labelContent="Nome" />
+              <FormInput name="name" labelcontent="Nome" />
 
-              <FormTextarea name="about" labelContent={<>Sobre <span>Máximo de 300 caracteres</span></>} maxLength={300} />
+              <FormTextarea name="about" labelcontent={<>Sobre <span>Máximo de 300 caracteres</span></>} maxLength={300} />
 
-              <FormInput name="whatsapp" labelContent="Número de Whatsapp" />
+              <FormInput name="whatsapp" labelcontent="Número de Whatsapp" />
 
               <FormImagesInput name="images" />
 
@@ -54,11 +89,11 @@ export default function AddOrphanage () {
             <fieldset>
               <legend>Visitação</legend>
 
-              <FormTextarea name="instructions" labelContent="Instruções" />
+              <FormTextarea name="instructions" labelcontent="Instruções" />
 
-              <FormInput name="opening_hours" labelContent="Horário das visitas" />
+              <FormInput name="openingHours" labelcontent="Horário das visitas" />
 
-              <FormButtonSelect name="open_on_weekends" firstButtonTitle="Sim" secondButtonTitle="Não"/>
+              <FormButtonSelect name="openOnWeekends" firstButtonTitle="Sim" secondButtonTitle="Não"/>
             </fieldset>
 
             <button className="confirm-button" type="submit">
@@ -70,3 +105,5 @@ export default function AddOrphanage () {
     </div>
   )
 }
+
+export default AddOrphanage

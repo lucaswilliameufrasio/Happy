@@ -5,7 +5,7 @@ import Context from '@/presentation/contexts/form/form-context'
 import './form-textarea.css'
 
 interface Props extends React.DetailedHTMLProps<React.TextareaHTMLAttributes<HTMLTextAreaElement>, HTMLTextAreaElement> {
-  labelContent: string | React.ReactNode
+  labelcontent: string | React.ReactNode
 }
 
 function FormTextarea (props: Props) {
@@ -21,9 +21,9 @@ function FormTextarea (props: Props) {
 
   return (
     <div className="form-textarea-block">
-      <label htmlFor={props.name}>{props.labelContent}</label>
+      <label htmlFor={props.name}>{props.labelcontent}</label>
       <textarea {...props} className={error ? 'form-textarea-highlighted-error' : ''} id={props.name} maxLength={props.maxLength} onChange={handleChange} />
-      {error && <span className="form-textarea-span-error">{error}</span>}
+      {error && <span data-testid={`${props.name}-error`} className="form-textarea-span-error">{error}</span>}
     </div>
 
   )

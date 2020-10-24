@@ -5,7 +5,7 @@ import Context from '@/presentation/contexts/form/form-context'
 import './form-input.css'
 
 interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-  labelContent?: string | React.ReactNode
+  labelcontent?: string | React.ReactNode
 }
 
 function FormInput (props: Props) {
@@ -21,9 +21,9 @@ function FormInput (props: Props) {
 
   return (
     <div className="form-input-block">
-      <label htmlFor={props.name}>{props.labelContent}</label>
-      <input {...props} className={error ? 'input-highlighted-error' : ''} id={props.name} onChange={handleChange}/>
-      {error && <span className="form-input-span-error">{error}</span>}
+      <label htmlFor={props.name}>{props.labelcontent}</label>
+      <input data-testid={props.name} {...props} className={error ? 'input-highlighted-error' : ''} id={props.name} onChange={handleChange}/>
+      {error && <span data-testid={`${props.name}-error`} className="form-input-span-error">{error}</span>}
     </div>
   )
 }

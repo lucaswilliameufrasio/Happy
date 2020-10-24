@@ -40,7 +40,7 @@ function FormMap (props: Props) {
         )}
 
       </Map>
-      {error && <span className="form-map-span-error">{error}</span>}
+      {error && <span data-testid={`${props.name}-error`} className="form-map-span-error">{error}</span>}
     </div>
   )
 }

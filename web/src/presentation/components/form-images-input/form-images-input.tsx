@@ -61,7 +61,7 @@ function FormImagesInput (props: Props) {
       </div>
 
       <input {...props} data-testid={props.name} multiple onChange={handleSelectImages} type="file" id="image[]"/>
-      {error && <span className="images-span-error">{error}</span>}
+      {error && <span data-testid={`${props.name}-error`} className="images-span-error">{error}</span>}
 
     </div>
   )
