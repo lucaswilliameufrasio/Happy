@@ -1,4 +1,5 @@
-import { HttpClient } from '@/data/protocols/http/http-client'
+import { HttpClient, HttpStatusCode } from '@/data/protocols/http/http-client'
+import { UnexpectedError } from '@/domain/errors/unexpected-error'
 import { AddOrphanage } from '@/domain/usecases/add-orphanage'
 
 export class RemoteAddOrphanage implements AddOrphanage {
@@ -8,11 +9,15 @@ export class RemoteAddOrphanage implements AddOrphanage {
   ) {}
 
   async add (params: AddOrphanage.Params): Promise<AddOrphanage.Model> {
-    await this.httpClient.request({
+    const httpResponse = await this.httpClient.request({
       url: this.url,
       method: 'post',
       body: params
     })
-    return null
+
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.ok : return httpResponse.body
+      default: throw new UnexpectedError()
+    }
   }
 }
