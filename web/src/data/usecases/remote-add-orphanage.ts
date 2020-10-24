@@ -1,6 +1,5 @@
 import { HttpClient } from '@/data/protocols/http/http-client'
-import { AddOrphanage, AddOrphanageParams } from '@/domain/usecases/add-orphanage'
-import { OrphanageModel } from '@/domain/models'
+import { AddOrphanage } from '@/domain/usecases/add-orphanage'
 
 export class RemoteAddOrphanage implements AddOrphanage {
   constructor (
@@ -8,7 +7,7 @@ export class RemoteAddOrphanage implements AddOrphanage {
     private readonly httpClient: HttpClient
   ) {}
 
-  async add (params: AddOrphanageParams): Promise<OrphanageModel> {
+  async add (params: AddOrphanage.Params): Promise<AddOrphanage.Model> {
     await this.httpClient.request({
       url: this.url,
       method: 'post',

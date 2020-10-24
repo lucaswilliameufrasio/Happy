@@ -1,7 +1,7 @@
-import { AddOrphanageParams } from '@/domain/usecases/add-orphanage'
+import { AddOrphanage } from '@/domain/usecases/add-orphanage'
 import faker from 'faker'
 
-export const mockAddOrphanageParams = (): AddOrphanageParams => ({
+export const mockAddOrphanageParams = (): AddOrphanage.Params => ({
   name: faker.name.findName(),
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
