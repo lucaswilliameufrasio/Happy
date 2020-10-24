@@ -1,7 +1,8 @@
 export enum HttpStatusCode {
   ok = 200,
   badRequest = 400,
-  serverError = 500
+  serverError = 500,
+  notFound = 404
 }
 
 export type HttpMethod = 'post'
