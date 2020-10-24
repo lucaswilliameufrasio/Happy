@@ -1,6 +1,6 @@
 import React from 'react'
 import faker from 'faker'
-import { RenderResult, render, fireEvent, waitFor } from '@testing-library/react'
+import { RenderResult, render, fireEvent, waitFor, cleanup } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import AddOrphanageComponent from './add-orphanage'
@@ -37,9 +37,26 @@ const makeSut = (params?: SutParams): SutTypes => {
 }
 
 describe('AddOrphanage component', () => {
+  afterEach(cleanup)
+
   test('Should show name error if Validation fails', async () => {
     const validationError = faker.random.words()
     const fieldName = 'name'
+    const { sut } = makeSut({ validationError })
+
+    Helper.populateField(sut, fieldName)
+
+    const form = sut.getByTestId('form')
+    fireEvent.submit(form)
+    await waitFor(() => form)
+
+    Helper.testErrorForField(sut, fieldName, validationError)
+    Helper.testElementExists(sut, `${fieldName}-error`)
+  })
+
+  test('Should show about error if Validation fails', async () => {
+    const validationError = faker.random.words()
+    const fieldName = 'about'
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, fieldName)
