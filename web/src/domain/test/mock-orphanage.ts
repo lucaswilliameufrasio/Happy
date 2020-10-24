@@ -1,10 +1,8 @@
 import { AddOrphanage } from '@/domain/usecases/add-orphanage'
-import { mockOrphanageModel } from './mock-orphanage'
 import faker from 'faker'
 
-export const mockAddOrphanageModel = (): AddOrphanage.Model => mockOrphanageModel()
-
-export const mockAddOrphanageParams = (): AddOrphanage.Params => ({
+export const mockOrphanageModel = (): AddOrphanage.Model => ({
+  id: faker.random.number(),
   name: faker.name.findName(),
   latitude: Number(faker.address.latitude()),
   longitude: Number(faker.address.longitude()),
@@ -13,6 +11,7 @@ export const mockAddOrphanageParams = (): AddOrphanage.Params => ({
   instructions: faker.random.words(),
   open_on_weekend: faker.random.boolean(),
   opening_hours: faker.random.words(),
+  approved: faker.random.boolean(),
   images: [{
     name: faker.random.word()
   }]

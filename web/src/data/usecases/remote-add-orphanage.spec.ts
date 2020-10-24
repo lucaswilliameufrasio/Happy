@@ -1,7 +1,7 @@
 import { RemoteAddOrphanage } from './remote-add-orphanage'
 import { HttpStatusCode } from '@/data/protocols/http/http-client'
 import { HttpClientSpy } from '@/data/test/mock-http'
-import { mockAddOrphanageParams } from '@/domain/test/mock-add-orphanage'
+import { mockAddOrphanageModel, mockAddOrphanageParams } from '@/domain/test/mock-add-orphanage'
 import { UnexpectedError } from '@/domain/errors/unexpected-error'
 import faker from 'faker'
 
@@ -67,5 +67,19 @@ describe('RemoteAddOrphanage', () => {
     const promise = sut.add(mockAddOrphanageParams())
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('Should return an AddOrphanage.Model if HttpClient returns 200', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockAddOrphanageModel()
+
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
+
+    const orphanage = await sut.add(mockAddOrphanageParams())
+
+    expect(orphanage).toEqual(httpResult)
   })
 })
