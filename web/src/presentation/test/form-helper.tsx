@@ -11,6 +11,19 @@ export const testErrorForField = (
   expect(fieldStatus.textContent).toBe(validationError || null)
 }
 
+export const populateFilesField = (
+  sut: RenderResult,
+  fieldName: string,
+  files = [faker.random.word()]
+): void => {
+  const input = sut.getByTestId(fieldName)
+  fireEvent.input(input, {
+    target: {
+      files
+    }
+  })
+}
+
 export const populateField = (
   sut: RenderResult,
   fieldName: string,

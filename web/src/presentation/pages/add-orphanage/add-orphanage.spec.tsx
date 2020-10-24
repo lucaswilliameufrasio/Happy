@@ -83,4 +83,19 @@ describe('AddOrphanage component', () => {
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
   })
+
+  test('Should show images error if Validation fails', async () => {
+    const validationError = faker.random.words()
+    const fieldName = 'images'
+    const { sut } = makeSut({ validationError })
+
+    Helper.populateFilesField(sut, fieldName)
+
+    const form = sut.getByTestId('form')
+    fireEvent.submit(form)
+    await waitFor(() => form)
+
+    Helper.testErrorForField(sut, fieldName, validationError)
+    Helper.testElementExists(sut, `${fieldName}-error`)
+  })
 })
