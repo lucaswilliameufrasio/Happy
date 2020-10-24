@@ -5,7 +5,7 @@ import Context from '@/presentation/contexts/form/form-context'
 import './form-button-select.css'
 
 interface Props extends React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-  labelcontent?: string | React.ReactNode
+  'label-content'?: string | React.ReactNode
   firstButtonTitle: string
   secondButtonTitle: string
 }

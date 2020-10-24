@@ -76,11 +76,11 @@ function AddOrphanage ({ validation }: Props) {
 
               <FormMap name="position"/>
 
-              <FormInput name="name" labelcontent="Nome" />
+              <FormInput name="name" label-content="Nome" />
 
-              <FormTextarea name="about" labelcontent={<>Sobre <span>Máximo de 300 caracteres</span></>} maxLength={300} />
+              <FormTextarea name="about" label-content={<>Sobre <span>Máximo de 300 caracteres</span></>} maxLength={300} />
 
-              <FormInput name="whatsapp" labelcontent="Número de Whatsapp" />
+              <FormInput name="whatsapp" label-content="Número de Whatsapp" />
 
               <FormImagesInput name="images" />
 
@@ -89,9 +89,9 @@ function AddOrphanage ({ validation }: Props) {
             <fieldset>
               <legend>Visitação</legend>
 
-              <FormTextarea name="instructions" labelcontent="Instruções" />
+              <FormTextarea name="instructions" label-content="Instruções" />
 
-              <FormInput name="openingHours" labelcontent="Horário das visitas" />
+              <FormInput name="openingHours" label-content="Horário das visitas" />
 
               <FormButtonSelect name="openOnWeekends" firstButtonTitle="Sim" secondButtonTitle="Não"/>
             </fieldset>
