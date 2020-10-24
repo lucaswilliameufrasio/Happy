@@ -5,7 +5,7 @@ export enum HttpStatusCode {
   notFound = 404
 }
 
-export type HttpMethod = 'post'
+export type HttpMethod = 'get' | 'post' | 'put' | 'delete'
 
 export type HttpRequest = {
   url: string
