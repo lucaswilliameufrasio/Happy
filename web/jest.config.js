@@ -13,10 +13,12 @@ module.exports = {
   coverageProvider: 'babel',
   testEnvironment: 'jsdom',
   transform: {
-    '.+\\.(ts|tsx)$': 'ts-jest'
+    '.+\\.(ts|tsx)$': 'ts-jest',
+    '\\.(svg)$': '<rootDir>/file-transformer.js'
+
   },
   moduleNameMapper: {
     '@/(.*)': '<rootDir>/src/$1',
-    '\\.(css)$': 'identity-obj-proxy'
+    '\\.(svg|css)$': 'identity-obj-proxy'
   }
 }
