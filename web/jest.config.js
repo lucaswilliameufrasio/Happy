@@ -7,6 +7,9 @@ module.exports = {
     '!**/*.d.ts'
   ],
   coverageDirectory: 'coverage',
+  testPathIgnorePatterns: [
+    '<rootDir>/node_modules/'
+  ],
   coverageProvider: 'babel',
   testEnvironment: 'jsdom',
   transform: {
