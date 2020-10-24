@@ -5,3 +5,4 @@ coverage
 .env
 src/uploads
 data
+!src/data
