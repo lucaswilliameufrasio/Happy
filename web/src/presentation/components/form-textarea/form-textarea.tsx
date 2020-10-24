@@ -22,7 +22,7 @@ function FormTextarea (props: Props) {
   return (
     <div className="form-textarea-block">
       <label htmlFor={props.name}>{props.labelcontent}</label>
-      <textarea {...props} className={error ? 'form-textarea-highlighted-error' : ''} id={props.name} maxLength={props.maxLength} onChange={handleChange} />
+      <textarea data-testid={props.name} {...props} className={error ? 'form-textarea-highlighted-error' : ''} id={props.name} maxLength={props.maxLength} onChange={handleChange} />
       {error && <span data-testid={`${props.name}-error`} className="form-textarea-span-error">{error}</span>}
     </div>
 
