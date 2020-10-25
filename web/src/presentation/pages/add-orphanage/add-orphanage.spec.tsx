@@ -1,6 +1,6 @@
 import React from 'react'
 import faker from 'faker'
-import { RenderResult, render, cleanup } from '@testing-library/react'
+import { RenderResult, render, cleanup, fireEvent, waitFor } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import AddOrphanageComponent from './add-orphanage'
@@ -34,6 +34,28 @@ const makeSut = (params?: SutParams): SutTypes => {
     sut,
     addOrphanageSpy
   }
+}
+
+const simulateValidSubmit = async (
+  sut: RenderResult,
+  name = faker.random.words(),
+  about = faker.random.words(),
+  whatsapp = faker.phone.phoneNumber(),
+  images = [
+    faker.internet.avatar()
+  ],
+  instructions = faker.random.words(),
+  openingHours = faker.random.words()
+): Promise<void> => {
+  Helper.populateField(sut, 'name', name)
+  Helper.populateField(sut, 'about', about)
+  Helper.populateField(sut, 'whatsapp', whatsapp)
+  Helper.populateFilesField(sut, 'images', images)
+  Helper.populateField(sut, 'instructions', instructions)
+  Helper.populateField(sut, 'openingHours', openingHours)
+  const form = sut.getByTestId('form')
+  fireEvent.submit(form)
+  await waitFor(() => form)
 }
 
 describe('AddOrphanage component', () => {
@@ -169,5 +191,12 @@ describe('AddOrphanage component', () => {
     await Helper.simulateSubmit(sut)
 
     Helper.testElementDoesNotExists(sut, `${fieldName}-error`)
+  })
+
+  test('Should show spinner on submit', async () => {
+    const { sut } = makeSut()
+    await simulateValidSubmit(sut)
+
+    Helper.testElementExists(sut, 'spinner')
   })
 })
