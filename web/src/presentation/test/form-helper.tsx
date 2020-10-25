@@ -1,5 +1,13 @@
-import { fireEvent, RenderResult } from '@testing-library/react'
+import { fireEvent, RenderResult, waitFor } from '@testing-library/react'
 import faker from 'faker'
+
+export const simulateSubmit = async (
+  sut: RenderResult
+): Promise<void> => {
+  const form = sut.getByTestId('form')
+  fireEvent.submit(form)
+  await waitFor(() => form)
+}
 
 export const testErrorForField = (
   sut: RenderResult,

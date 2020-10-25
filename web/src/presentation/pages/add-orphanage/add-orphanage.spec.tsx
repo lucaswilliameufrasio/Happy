@@ -1,6 +1,6 @@
 import React from 'react'
 import faker from 'faker'
-import { RenderResult, render, fireEvent, waitFor, cleanup } from '@testing-library/react'
+import { RenderResult, render, cleanup } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import AddOrphanageComponent from './add-orphanage'
@@ -45,10 +45,7 @@ describe('AddOrphanage component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, fieldName)
-
-    const form = sut.getByTestId('form')
-    fireEvent.submit(form)
-    await waitFor(() => form)
+    await Helper.simulateSubmit(sut)
 
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
@@ -60,10 +57,7 @@ describe('AddOrphanage component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, fieldName)
-
-    const form = sut.getByTestId('form')
-    fireEvent.submit(form)
-    await waitFor(() => form)
+    await Helper.simulateSubmit(sut)
 
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
@@ -75,10 +69,7 @@ describe('AddOrphanage component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, fieldName)
-
-    const form = sut.getByTestId('form')
-    fireEvent.submit(form)
-    await waitFor(() => form)
+    await Helper.simulateSubmit(sut)
 
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
@@ -90,10 +81,7 @@ describe('AddOrphanage component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateFilesField(sut, fieldName)
-
-    const form = sut.getByTestId('form')
-    fireEvent.submit(form)
-    await waitFor(() => form)
+    await Helper.simulateSubmit(sut)
 
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
@@ -105,10 +93,7 @@ describe('AddOrphanage component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, fieldName)
-
-    const form = sut.getByTestId('form')
-    fireEvent.submit(form)
-    await waitFor(() => form)
+    await Helper.simulateSubmit(sut)
 
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
@@ -120,10 +105,7 @@ describe('AddOrphanage component', () => {
     const { sut } = makeSut({ validationError })
 
     Helper.populateField(sut, fieldName)
-
-    const form = sut.getByTestId('form')
-    fireEvent.submit(form)
-    await waitFor(() => form)
+    await Helper.simulateSubmit(sut)
 
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
