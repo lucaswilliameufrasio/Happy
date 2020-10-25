@@ -150,4 +150,14 @@ describe('AddOrphanage component', () => {
 
     Helper.testElementDoesNotExists(sut, `${fieldName}-error`)
   })
+
+  test('Should not show instructions error if Validation succeeds', async () => {
+    const fieldName = 'instructions'
+    const { sut } = makeSut()
+
+    Helper.populateField(sut, fieldName)
+    await Helper.simulateSubmit(sut)
+
+    Helper.testElementDoesNotExists(sut, `${fieldName}-error`)
+  })
 })
