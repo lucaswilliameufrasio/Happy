@@ -110,4 +110,14 @@ describe('AddOrphanage component', () => {
     Helper.testErrorForField(sut, fieldName, validationError)
     Helper.testElementExists(sut, `${fieldName}-error`)
   })
+
+  test('Should not show name error if Validation succeeds', async () => {
+    const fieldName = 'name'
+    const { sut } = makeSut()
+
+    Helper.populateField(sut, fieldName)
+    await Helper.simulateSubmit(sut)
+
+    Helper.testElementDoesNotExists(sut, `${fieldName}-error`)
+  })
 })

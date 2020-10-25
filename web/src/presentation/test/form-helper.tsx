@@ -48,3 +48,11 @@ export const testElementExists = (
   const element = sut.getByTestId(fieldName)
   expect(element).toBeTruthy()
 }
+
+export const testElementDoesNotExists = (
+  sut: RenderResult,
+  fieldName: string
+): void => {
+  const element = sut.queryByTestId(fieldName)
+  expect(element).toBeFalsy()
+}
