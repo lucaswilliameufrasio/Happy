@@ -5,6 +5,7 @@ import Context from '@/presentation/contexts/form/form-context'
 import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect } from '@/presentation/components'
 
 import './add-orphanage.css'
+import Spinner from '@/presentation/components/spinner/spinner'
 
 type Props = {
   validation: Validation
@@ -12,6 +13,7 @@ type Props = {
 
 function AddOrphanage ({ validation }: Props) {
   const [state, setState] = useState({
+    isLoading: false,
     name: '',
     about: '',
     whatsapp: '',
@@ -54,7 +56,8 @@ function AddOrphanage ({ validation }: Props) {
       instructionsError,
       openOnWeekendsError,
       openingHoursError,
-      positionError
+      positionError,
+      isLoading: true
     })
   }
 
@@ -97,7 +100,7 @@ function AddOrphanage ({ validation }: Props) {
             </fieldset>
 
             <button className="confirm-button" type="submit">
-            Confirmar
+              {state.isLoading ? <Spinner /> : 'Confirmar' }
             </button>
           </form>
         </Context.Provider>
