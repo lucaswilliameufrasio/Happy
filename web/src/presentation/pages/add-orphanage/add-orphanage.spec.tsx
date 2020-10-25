@@ -140,4 +140,14 @@ describe('AddOrphanage component', () => {
 
     Helper.testElementDoesNotExists(sut, `${fieldName}-error`)
   })
+
+  test('Should not show images error if Validation succeeds', async () => {
+    const fieldName = 'images'
+    const { sut } = makeSut()
+
+    Helper.populateFilesField(sut, fieldName)
+    await Helper.simulateSubmit(sut)
+
+    Helper.testElementDoesNotExists(sut, `${fieldName}-error`)
+  })
 })
