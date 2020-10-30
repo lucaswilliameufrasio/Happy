@@ -25,7 +25,9 @@ export const populateFilesField = (
   files = [faker.random.word()]
 ): void => {
   const input = sut.getByTestId(fieldName)
-  fireEvent.input(input, {
+  window.URL.createObjectURL = jest.fn().mockReturnValueOnce(files)
+
+  fireEvent.change(input, {
     target: {
       files
     }

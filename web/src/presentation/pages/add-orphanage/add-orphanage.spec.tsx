@@ -1,15 +1,26 @@
 import React from 'react'
 import faker from 'faker'
-import { RenderResult, render, cleanup, fireEvent, waitFor } from '@testing-library/react'
+import {
+  RenderResult,
+  render,
+  cleanup,
+  fireEvent,
+  waitFor
+} from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
 import AddOrphanageComponent from './add-orphanage'
-import { AddOrphanageSpy, Helper, ValidationStub } from '@/presentation/test'
+import {
+  AddOrphanageSpy,
+  Helper,
+  ValidationStub,
+  MockFormMap
+} from '@/presentation/test'
+import FormMap from '@/presentation/components/form-map/form-map'
 
 type SutTypes = {
   sut: RenderResult
   addOrphanageSpy: AddOrphanageSpy
-
 }
 
 type SutParams = {
@@ -26,6 +37,7 @@ const makeSut = (params?: SutParams): SutTypes => {
     <Router history={history}>
       <AddOrphanageComponent
         validation={validationStub}
+        addOrphanage={addOrphanageSpy}
       />
     </Router>
   )
@@ -41,9 +53,7 @@ const simulateValidSubmit = async (
   name = faker.random.words(),
   about = faker.random.words(),
   whatsapp = faker.phone.phoneNumber(),
-  images = [
-    faker.internet.avatar()
-  ],
+  images = [faker.random.word()],
   instructions = faker.random.words(),
   openingHours = faker.random.words()
 ): Promise<void> => {
@@ -53,12 +63,38 @@ const simulateValidSubmit = async (
   Helper.populateFilesField(sut, 'images', images)
   Helper.populateField(sut, 'instructions', instructions)
   Helper.populateField(sut, 'openingHours', openingHours)
+  const openOnWeekend = sut.getByTestId('openOnWeekend')
+  fireEvent.click(openOnWeekend.lastChild)
+
+  const positionMap = sut.getByTestId('position')
+  fireEvent.click(positionMap.firstChild)
+
   const form = sut.getByTestId('form')
   fireEvent.submit(form)
   await waitFor(() => form)
 }
 
+jest.mock('@/presentation/components/form-map/form-map', () => ({
+  __esModule: true,
+  namedExport: jest.fn(),
+  default: jest.fn()
+}))
+
+let expectedLatitude: number
+let expectedLongitude: number
+
 describe('AddOrphanage component', () => {
+  beforeEach(() => {
+    expectedLatitude = Number(faker.address.latitude())
+    expectedLongitude = Number(faker.address.longitude())
+  })
+
+  beforeEach(() => {
+    (FormMap as jest.Mock<JSX.Element>).mockImplementation(
+      MockFormMap(expectedLatitude, expectedLongitude)
+    )
+  })
+
   afterEach(cleanup)
 
   test('Should show name error if Validation fails', async () => {
@@ -198,5 +234,43 @@ describe('AddOrphanage component', () => {
     await simulateValidSubmit(sut)
 
     Helper.testElementExists(sut, 'spinner')
+  })
+
+  test('Should call AddOrphanage with correct values', async () => {
+    const { sut, addOrphanageSpy } = makeSut()
+
+    const name = faker.random.words()
+    const about = faker.random.words()
+    const whatsapp = faker.phone.phoneNumber()
+    const images = [faker.random.word()]
+    const instructions = faker.random.words()
+    const openingHours = faker.random.words()
+
+    const position = {
+      latitude: expectedLatitude,
+      longitude: expectedLongitude
+    }
+
+    await simulateValidSubmit(
+      sut,
+      name,
+      about,
+      whatsapp,
+      images,
+      instructions,
+      openingHours
+    )
+
+    expect(addOrphanageSpy.params).toEqual({
+      name,
+      about,
+      whatsapp,
+      images,
+      instructions,
+      opening_hours: openingHours,
+      open_on_weekend: false,
+      latitude: position.latitude,
+      longitude: position.longitude
+    })
   })
 })
