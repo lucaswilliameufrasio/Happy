@@ -7,7 +7,10 @@ import leafletMapIcon from '@/presentation/helpers/leaflet-map-icon-config'
 
 import './form-map.css'
 
-type Props = React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement>
+interface Props extends React.DetailedHTMLProps<React.InputHTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+  centerLatitude: number
+  centerLongitude: number
+}
 
 function FormMap (props: Props) {
   const { state, setState } = useContext(Context)
@@ -19,9 +22,9 @@ function FormMap (props: Props) {
   }
 
   return (
-    <div className="map-block">
+    <div data-testid={props.name} className="map-block">
       <Map
-        center={[-3.2081546, -52.2261614]}
+        center={[props.centerLatitude, props.centerLongitude]}
         style={{ width: '100%', height: 280 }}
         zoom={15}
         onclick={handleMapClick}

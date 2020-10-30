@@ -3,15 +3,17 @@ import React, { useState } from 'react'
 import { Validation } from '@/presentation/protocols'
 import Context from '@/presentation/contexts/form/form-context'
 import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect } from '@/presentation/components'
+import { AddOrphanage as AddOrphanageUseCase } from '@/domain/usecases/add-orphanage'
 
 import './add-orphanage.css'
 import Spinner from '@/presentation/components/spinner/spinner'
 
 type Props = {
   validation: Validation
+  addOrphanage: AddOrphanageUseCase
 }
 
-function AddOrphanage ({ validation }: Props) {
+function AddOrphanage ({ validation, addOrphanage }: Props) {
   const [state, setState] = useState({
     isLoading: false,
     name: '',
@@ -20,7 +22,7 @@ function AddOrphanage ({ validation }: Props) {
     images: [],
     instructions: '',
     openingHours: '',
-    openOnWeekends: true,
+    openOnWeekend: true,
     position: {
       latitude: null,
       longitude: null
@@ -31,19 +33,19 @@ function AddOrphanage ({ validation }: Props) {
     imagesError: null,
     instructionsError: null,
     openingHoursError: null,
-    openOnWeekendsError: null,
+    openOnWeekendError: null,
     positionError: null
   })
 
   async function validateForm () {
-    const { name, about, whatsapp, images, instructions, openOnWeekends, openingHours, position } = state
-    const formData = { name, about, whatsapp, images, instructions, openOnWeekends, openingHours, position }
+    const { name, about, whatsapp, images, instructions, openOnWeekend, openingHours, position } = state
+    const formData = { name, about, whatsapp, images, instructions, openOnWeekend, openingHours, position }
     const nameError = validation.validate('name', formData)
     const aboutError = validation.validate('about', formData)
     const whatsappError = validation.validate('whatsapp', formData)
     const imagesError = validation.validate('images', formData)
     const instructionsError = validation.validate('instructions', formData)
-    const openOnWeekendsError = validation.validate('openOnWeekends', formData)
+    const openOnWeekendError = validation.validate('openOnWeekend', formData)
     const openingHoursError = validation.validate('openingHours', formData)
     const positionError = validation.validate('position', formData)
 
@@ -54,7 +56,7 @@ function AddOrphanage ({ validation }: Props) {
       whatsappError,
       imagesError,
       instructionsError,
-      openOnWeekendsError,
+      openOnWeekendError,
       openingHoursError,
       positionError,
       isLoading: true
@@ -64,6 +66,18 @@ function AddOrphanage ({ validation }: Props) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     await validateForm()
+
+    await addOrphanage.add({
+      name: state.name,
+      about: state.about,
+      whatsapp: state.whatsapp,
+      images: state.images,
+      instructions: state.instructions,
+      latitude: state.position.latitude,
+      longitude: state.position.longitude,
+      open_on_weekend: state.openOnWeekend,
+      opening_hours: state.openingHours
+    })
   }
 
   return (
@@ -77,7 +91,7 @@ function AddOrphanage ({ validation }: Props) {
             <fieldset>
               <legend>Dados</legend>
 
-              <FormMap name="position"/>
+              <FormMap name="position" centerLatitude={-3.2081546} centerLongitude={-52.2261614} />
 
               <FormInput name="name" label-content="Nome" />
 
@@ -96,11 +110,11 @@ function AddOrphanage ({ validation }: Props) {
 
               <FormInput name="openingHours" label-content="Horário das visitas" />
 
-              <FormButtonSelect name="openOnWeekends" firstButtonTitle="Sim" secondButtonTitle="Não"/>
+              <FormButtonSelect name="openOnWeekend" firstButtonTitle="Sim" secondButtonTitle="Não" />
             </fieldset>
 
             <button className="confirm-button" type="submit">
-              {state.isLoading ? <Spinner /> : 'Confirmar' }
+              {state.isLoading ? <Spinner /> : 'Confirmar'}
             </button>
           </form>
         </Context.Provider>

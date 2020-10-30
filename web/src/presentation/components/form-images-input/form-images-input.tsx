@@ -25,7 +25,6 @@ function FormImagesInput (props: Props) {
     })
 
     setPreviewImages([...previewImages, ...selectedImagesPreview])
-    console.log(previewImages, state[event.target.name])
   }
 
   function handleImageRemotion (image: string) {
@@ -46,7 +45,7 @@ function FormImagesInput (props: Props) {
       <div className="images-container">
         {previewImages.map(image => {
           return (
-            <div key={image} className="image-container" data-testid={`${props.name}-preview`}>
+            <div key={`${image}-preview`} className="image-container" data-testid={`${props.name}-preview`}>
               <button type="button" className="remove-image" onClick={() => handleImageRemotion(image)}>
                 <FiX size={24} color="#FF669D"/>
               </button>

@@ -25,7 +25,7 @@ function FormButtonSelect (props: Props) {
     <div className="select-button-block">
       <label htmlFor={props.name}>Atende fim de semana</label>
 
-      <div className={error ? 'button-select-highlighted-error button-select' : 'button-select'}>
+      <div data-testid={props.name} className={error ? 'button-select-highlighted-error button-select' : 'button-select'}>
         <button type="button" className={state[props.name] ? 'active' : ''} onClick={() => handleClick(true)}>{props.firstButtonTitle}</button>
         <button type="button" className={!state[props.name] ? 'active' : ''} onClick={() => handleClick(false)}>{props.secondButtonTitle}</button>
       </div>
