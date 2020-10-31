@@ -28,6 +28,7 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
       latitude: null,
       longitude: null
     },
+    mainError: null,
     nameError: null,
     aboutError: null,
     whatsappError: null,
@@ -72,22 +73,29 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
 
-    if (state.isLoading || state.isFormInvalid) {
-      return
-    }
-    setState({ ...state, isLoading: true })
+    try {
+      if (state.isLoading || state.isFormInvalid) {
+        return
+      }
+      setState({ ...state, isLoading: true })
 
-    await addOrphanage.add({
-      name: state.name,
-      about: state.about,
-      whatsapp: state.whatsapp,
-      images: state.images,
-      instructions: state.instructions,
-      latitude: state.position.latitude,
-      longitude: state.position.longitude,
-      open_on_weekend: state.openOnWeekend,
-      opening_hours: state.openingHours
-    })
+      await addOrphanage.add({
+        name: state.name,
+        about: state.about,
+        whatsapp: state.whatsapp,
+        images: state.images,
+        instructions: state.instructions,
+        latitude: state.position.latitude,
+        longitude: state.position.longitude,
+        open_on_weekend: state.openOnWeekend,
+        opening_hours: state.openingHours
+      })
+    } catch (error) {
+      setState({
+        ...state,
+        mainError: error.message
+      })
+    }
   }
 
   return (
@@ -127,6 +135,10 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
               {state.isLoading ? <Spinner /> : 'Confirmar'}
             </button>
           </form>
+
+          <div data-testid="error-wrap" className="error-wrap">
+            {state.mainError && <span data-testid="main-error" className="error-message">{state.mainError}</span> }
+          </div>
         </Context.Provider>
       </main>
     </div>
