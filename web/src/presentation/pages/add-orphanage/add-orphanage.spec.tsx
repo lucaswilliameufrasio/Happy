@@ -273,4 +273,12 @@ describe('AddOrphanage component', () => {
       longitude: position.longitude
     })
   })
+
+  test('Should call AddOrphanage only once', async () => {
+    const { sut, addOrphanageSpy } = makeSut()
+    await simulateValidSubmit(sut)
+    await simulateValidSubmit(sut)
+
+    expect(addOrphanageSpy.callsCount).toBe(1)
+  })
 })
