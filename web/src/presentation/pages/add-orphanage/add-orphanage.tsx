@@ -13,8 +13,33 @@ type Props = {
   addOrphanage: AddOrphanageUseCase
 }
 
+type Params = {
+  isLoading: boolean
+  isFormInvalid: boolean
+  name: string
+  about: string
+  whatsapp: string
+  images: File[]
+  instructions: string
+  openingHours: string
+  openOnWeekend: boolean
+  position: {
+    latitude: number
+    longitude: number
+  }
+  mainError: string
+  nameError: string
+  aboutError: string
+  whatsappError: string
+  imagesError: string
+  instructionsError: string
+  openingHoursError: string
+  openOnWeekendError: string
+  positionError: string
+}
+
 function AddOrphanage ({ validation, addOrphanage }: Props) {
-  const [state, setState] = useState({
+  const [state, setState] = useState<Params>({
     isLoading: false,
     isFormInvalid: true,
     name: '',
@@ -134,11 +159,12 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
             <button className="confirm-button" type="submit">
               {state.isLoading ? <Spinner /> : 'Confirmar'}
             </button>
+
+            <div data-testid="error-wrap" className="error-wrap">
+              {state.mainError && <span data-testid="main-error" className="error-message">{state.mainError}</span> }
+            </div>
           </form>
 
-          <div data-testid="error-wrap" className="error-wrap">
-            {state.mainError && <span data-testid="main-error" className="error-message">{state.mainError}</span> }
-          </div>
         </Context.Provider>
       </main>
     </div>
