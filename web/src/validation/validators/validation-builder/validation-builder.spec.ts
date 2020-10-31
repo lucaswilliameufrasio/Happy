@@ -1,5 +1,5 @@
 import { ValidationBuilder as sut } from './validation-builder'
-import { RequiredFieldValidation } from '@/validation/validators'
+import { RequiredFieldValidation, MinLengthValidation } from '@/validation/validators'
 import faker from 'faker'
 
 describe('ValidationBuilder', () => {
@@ -8,5 +8,13 @@ describe('ValidationBuilder', () => {
     const validations = sut.field(field).required().build()
 
     expect(validations).toEqual([new RequiredFieldValidation(field)])
+  })
+
+  test('Should return MinLengthValidation', () => {
+    const field = faker.database.column()
+    const length = faker.random.number()
+    const validations = sut.field(field).min(length).build()
+
+    expect(validations).toEqual([new MinLengthValidation(field, length)])
   })
 })
