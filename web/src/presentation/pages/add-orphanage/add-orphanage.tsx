@@ -16,6 +16,7 @@ type Props = {
 function AddOrphanage ({ validation, addOrphanage }: Props) {
   const [state, setState] = useState({
     isLoading: false,
+    isFormInvalid: true,
     name: '',
     about: '',
     whatsapp: '',
@@ -48,6 +49,7 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
     const openOnWeekendError = validation.validate('openOnWeekend', formData)
     const openingHoursError = validation.validate('openingHours', formData)
     const positionError = validation.validate('position', formData)
+    const formIsInvalid = !!nameError || !!aboutError || !!whatsappError || !!imagesError || !!instructionsError || !!openOnWeekendError || !!openingHoursError || !!positionError
 
     setState({
       ...state,
@@ -59,7 +61,7 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
       openOnWeekendError,
       openingHoursError,
       positionError,
-      isLoading: true
+      isFormInvalid: formIsInvalid
     })
   }
 
@@ -69,7 +71,8 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
-    if (state.isLoading) {
+
+    if (state.isLoading || state.isFormInvalid) {
       return
     }
     setState({ ...state, isLoading: true })
