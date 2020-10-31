@@ -65,6 +65,9 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
+    if (state.isLoading) {
+      return
+    }
     await validateForm()
 
     await addOrphanage.add({
