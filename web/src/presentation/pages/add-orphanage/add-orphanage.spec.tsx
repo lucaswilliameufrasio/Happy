@@ -17,6 +17,7 @@ import {
   MockFormMap
 } from '@/presentation/test'
 import FormMap from '@/presentation/components/form-map/form-map'
+import { UnexpectedError } from '@/domain/errors/unexpected-error'
 
 type SutTypes = {
   sut: RenderResult
@@ -288,5 +289,14 @@ describe('AddOrphanage component', () => {
     await simulateValidSubmit(sut)
 
     expect(addOrphanageSpy.callsCount).toBe(0)
+  })
+
+  test('Should present error if AddOrphanage fails', async () => {
+    const { sut, addOrphanageSpy } = makeSut()
+    const error = new UnexpectedError()
+    jest.spyOn(addOrphanageSpy, 'add').mockRejectedValueOnce(error)
+    await simulateValidSubmit(sut)
+
+    Helper.testElementText(sut, 'main-error', error.message)
   })
 })
