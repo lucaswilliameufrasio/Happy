@@ -281,4 +281,12 @@ describe('AddOrphanage component', () => {
 
     expect(addOrphanageSpy.callsCount).toBe(1)
   })
+
+  test('Should not call AddOrphanage if form is invalid', async () => {
+    const validationError = faker.random.words()
+    const { sut, addOrphanageSpy } = makeSut({ validationError })
+    await simulateValidSubmit(sut)
+
+    expect(addOrphanageSpy.callsCount).toBe(0)
+  })
 })
