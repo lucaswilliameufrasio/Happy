@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Validation } from '@/presentation/protocols'
 import Context from '@/presentation/contexts/form/form-context'
@@ -37,7 +37,7 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
     positionError: null
   })
 
-  async function validateForm () {
+  function validateForm () {
     const { name, about, whatsapp, images, instructions, openOnWeekend, openingHours, position } = state
     const formData = { name, about, whatsapp, images, instructions, openOnWeekend, openingHours, position }
     const nameError = validation.validate('name', formData)
@@ -63,12 +63,16 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
     })
   }
 
+  useEffect(() =>
+    validateForm(),
+  [state.name, state.about, state.whatsapp, state.images, state.instructions, state.openOnWeekend, state.openingHours, state.position])
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>): Promise<void> => {
     event.preventDefault()
     if (state.isLoading) {
       return
     }
-    await validateForm()
+    setState({ ...state, isLoading: true })
 
     await addOrphanage.add({
       name: state.name,
