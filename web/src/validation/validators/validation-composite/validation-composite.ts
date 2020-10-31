@@ -4,6 +4,10 @@ import { FieldValidation } from '@/validation/protocols/field-validation'
 export class ValidationComposite implements Validation {
   constructor (private readonly validators: FieldValidation[]) {}
 
+  static build (validations: FieldValidation[]): ValidationComposite {
+    return new ValidationComposite(validations)
+  }
+
   validate (fieldName: string, input: object): string {
     const validators = this.validators.filter(validator => validator.field === fieldName)
     for (const validator of validators) {
