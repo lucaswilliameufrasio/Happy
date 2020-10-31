@@ -5,7 +5,17 @@ export interface AddOrphanage {
 }
 
 export namespace AddOrphanage {
-  export type Params = Omit<OrphanageModel, 'id'|'approved'>
+  export type Params = {
+    name: string
+    latitude: number
+    longitude: number
+    whatsapp: string
+    about: string
+    instructions: string
+    opening_hours: string
+    open_on_weekend: boolean
+    images: File[]
+  }
 
   export type Model = OrphanageModel
 }

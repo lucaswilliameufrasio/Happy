@@ -30,7 +30,15 @@ describe('RemoteAddOrphanage', () => {
 
     expect(httpClientSpy.url).toBe(url)
     expect(httpClientSpy.method).toBe('post')
-    expect(httpClientSpy.body).toBe(addOrphanageParams)
+    expect(httpClientSpy.body.get('name')).toBe(addOrphanageParams.name)
+    expect(httpClientSpy.body.get('about')).toBe(addOrphanageParams.about)
+    expect(httpClientSpy.body.get('whatsapp')).toBe(addOrphanageParams.whatsapp)
+    expect(httpClientSpy.body.get('latitude')).toBe(String(addOrphanageParams.latitude))
+    expect(httpClientSpy.body.get('longitude')).toBe(String(addOrphanageParams.longitude))
+    expect(httpClientSpy.body.get('instructions')).toBe(addOrphanageParams.instructions)
+    expect(httpClientSpy.body.get('opening_hours')).toBe(addOrphanageParams.opening_hours)
+    expect(httpClientSpy.body.get('open_on_weekend')).toBe(String(addOrphanageParams.open_on_weekend))
+    expect(httpClientSpy.body.get('images')).toBe(addOrphanageParams.images[0])
   })
 
   test('Should throw UnexpectedError if HttpClient returns 400', async () => {

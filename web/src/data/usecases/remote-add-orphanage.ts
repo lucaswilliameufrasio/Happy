@@ -9,10 +9,25 @@ export class RemoteAddOrphanage implements AddOrphanage {
   ) {}
 
   async add (params: AddOrphanage.Params): Promise<AddOrphanage.Model> {
+    const formData = new FormData()
+
+    formData.append('name', params.name)
+    formData.append('about', params.about)
+    formData.append('whatsapp', params.whatsapp)
+    formData.append('instructions', params.instructions)
+    formData.append('latitude', String(params.latitude))
+    formData.append('longitude', String(params.longitude))
+    formData.append('opening_hours', params.opening_hours)
+    formData.append('open_on_weekend', String(params.open_on_weekend))
+
+    params.images.map(image => {
+      formData.append('images', image)
+    })
+
     const httpResponse = await this.httpClient.request({
       url: this.url,
       method: 'post',
-      body: params
+      body: formData
     })
 
     switch (httpResponse.statusCode) {
