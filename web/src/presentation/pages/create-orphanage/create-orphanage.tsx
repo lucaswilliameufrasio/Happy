@@ -74,7 +74,9 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
     const instructionsError = validation.validate('instructions', formData)
     const openOnWeekendError = validation.validate('openOnWeekend', formData)
     const openingHoursError = validation.validate('openingHours', formData)
-    const positionError = validation.validate('position', formData)
+    const latitudeError = validation.validate('latitude', formData.position)
+    const longitudeError = validation.validate('longitude', formData.position)
+    const positionError = longitudeError || latitudeError || (latitudeError && longitudeError && `${latitudeError}, ${longitudeError}`)
     const formIsInvalid = !!nameError || !!aboutError || !!whatsappError || !!imagesError || !!instructionsError || !!openOnWeekendError || !!openingHoursError || !!positionError
 
     setState({

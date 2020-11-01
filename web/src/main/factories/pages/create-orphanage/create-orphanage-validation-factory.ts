@@ -9,6 +9,7 @@ export const makeCreateOrphanageValidation = (): ValidationComposite => {
     ...Builder.field('images').required().build(),
     ...Builder.field('instructions').required().min(4).build(),
     ...Builder.field('openingHours').required().build(),
-    ...Builder.field('position').required().build()
+    ...Builder.field('latitude').required().build(),
+    ...Builder.field('longitude').required().build()
   ])
 }
