@@ -5,3 +5,4 @@ export { default as FormButtonSelect } from './form-button-select/form-button-se
 export { default as FormImagesInput } from './form-images-input/form-images-input'
 export { default as FormInput } from './form-input/form-input'
 export { default as FormTextarea } from './form-textarea/form-textarea'
+export { default as FormStatus } from './form-status/form-status'

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { Validation } from '@/presentation/protocols'
 import Context from '@/presentation/contexts/form/form-context'
-import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect } from '@/presentation/components'
+import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect, FormStatus } from '@/presentation/components'
 import { AddOrphanage as AddOrphanageUseCase } from '@/domain/usecases/add-orphanage'
 
 import './create-orphanage.css'
@@ -162,9 +162,7 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
               {state.isLoading ? <Spinner /> : 'Confirmar'}
             </button>
 
-            <div data-testid="error-wrap" className="error-wrap">
-              {state.mainError && <span data-testid="main-error" className="error-message">{state.mainError}</span> }
-            </div>
+            <FormStatus />
           </form>
 
         </Context.Provider>

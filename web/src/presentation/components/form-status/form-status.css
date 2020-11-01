@@ -1,0 +1,10 @@
+.error-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.error-wrap .error-message {
+    margin-top: 30px;
+    color: #000;
+}
