@@ -5,7 +5,7 @@ import Context from '@/presentation/contexts/form/form-context'
 import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect } from '@/presentation/components'
 import { AddOrphanage as AddOrphanageUseCase } from '@/domain/usecases/add-orphanage'
 
-import './add-orphanage.css'
+import './create-orphanage.css'
 import Spinner from '@/presentation/components/spinner/spinner'
 
 type Props = {
@@ -124,13 +124,13 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
   }
 
   return (
-    <div id="page-add-orphanage">
+    <div id="page-create-orphanage">
       <Sidebar />
 
       <main>
         <Context.Provider value={{ state, setState }} >
 
-          <form data-testid="form" className="add-orphanage-form" onSubmit={handleSubmit}>
+          <form data-testid="form" className="create-orphanage-form" onSubmit={handleSubmit}>
             <fieldset>
               <legend>Dados</legend>
 

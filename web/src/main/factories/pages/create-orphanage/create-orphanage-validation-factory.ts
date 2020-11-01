@@ -1,7 +1,7 @@
 import { ValidationComposite } from '@/validation/validators'
 import { ValidationBuilder as Builder } from '@/validation/validators/builder/validation-builder'
 
-export const makeAddOrphanageValidation = (): ValidationComposite => {
+export const makeCreateOrphanageValidation = (): ValidationComposite => {
   return ValidationComposite.build([
     ...Builder.field('name').required().min(2).build(),
     ...Builder.field('about').required().min(4).build(),

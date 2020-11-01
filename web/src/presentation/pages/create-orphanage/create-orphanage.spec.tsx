@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import AddOrphanageComponent from './add-orphanage'
+import AddOrphanageComponent from './create-orphanage'
 import {
   AddOrphanageSpy,
   Helper,
@@ -84,7 +84,7 @@ jest.mock('@/presentation/components/form-map/form-map', () => ({
 let expectedLatitude: number
 let expectedLongitude: number
 
-describe('AddOrphanage component', () => {
+describe('CreateOrphanage component', () => {
   beforeEach(() => {
     expectedLatitude = Number(faker.address.latitude())
     expectedLongitude = Number(faker.address.longitude())

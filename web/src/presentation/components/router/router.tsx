@@ -3,7 +3,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom'
 import { Landing, OrphanagesMap, Orphanage } from '@/presentation/pages'
 
 type Factory = {
-  makeAddOrphanage: () => JSX.Element
+  makeCreateOrphanage: () => JSX.Element
 }
 
 function Routes (factory: Factory) {
@@ -12,7 +12,7 @@ function Routes (factory: Factory) {
       <Switch>
         <Route path="/" exact component={Landing} />
         <Route path="/app" exact component={OrphanagesMap} />
-        <Route path="/orphanages/add" exact component={factory.makeAddOrphanage} />
+        <Route path="/orphanages/create" exact component={factory.makeCreateOrphanage} />
         <Route path="/orphanages/:id" component={Orphanage} />
       </Switch>
     </BrowserRouter>

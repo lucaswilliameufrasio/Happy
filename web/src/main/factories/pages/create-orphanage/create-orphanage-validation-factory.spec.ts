@@ -1,10 +1,10 @@
-import { makeAddOrphanageValidation } from './add-orphanage-validation-factory'
+import { makeCreateOrphanageValidation } from './create-orphanage-validation-factory'
 import { ValidationBuilder as Builder } from '@/validation/validators/builder/validation-builder'
 import { ValidationComposite } from '@/validation/validators/validation-composite/validation-composite'
 
-describe('AddOrphanageValidationFactory', () => {
+describe('CreateOrphanageValidationFactory', () => {
   test('Should make ValidationComposite with correct validations', () => {
-    const composite = makeAddOrphanageValidation()
+    const composite = makeCreateOrphanageValidation()
     expect(composite).toEqual(ValidationComposite.build([
       ...Builder.field('name').required().min(2).build(),
       ...Builder.field('about').required().min(4).build(),
