@@ -1,14 +1,18 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Landing, OrphanagesMap, Orphanage, AddOrphanage } from '@/presentation/pages'
+import { Landing, OrphanagesMap, Orphanage } from '@/presentation/pages'
 
-function Routes () {
+type Factory = {
+  makeAddOrphanage: () => JSX.Element
+}
+
+function Routes (factory: Factory) {
   return (
     <BrowserRouter>
       <Switch>
         <Route path="/" exact component={Landing} />
         <Route path="/app" exact component={OrphanagesMap} />
-        <Route path="/orphanages/add" exact component={AddOrphanage} />
+        <Route path="/orphanages/add" exact component={factory.makeAddOrphanage} />
         <Route path="/orphanages/:id" component={Orphanage} />
       </Switch>
     </BrowserRouter>
