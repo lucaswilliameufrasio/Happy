@@ -7,7 +7,7 @@
 
 .spinner div {
   box-sizing: border-box;
-  display: block;
+  top: 0;
   position: absolute;
   width: 64px;
   height: 64px;
