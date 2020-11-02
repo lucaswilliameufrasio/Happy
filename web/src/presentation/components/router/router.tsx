@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Landing, OrphanagesMap, Orphanage } from '@/presentation/pages'
+import { Landing, OrphanagesMap, Orphanage, CreateOrphanageSuccess } from '@/presentation/pages'
 
 type Factory = {
   makeCreateOrphanage: () => JSX.Element
@@ -13,6 +13,7 @@ function Routes (factory: Factory) {
         <Route path="/" exact component={Landing} />
         <Route path="/app" exact component={OrphanagesMap} />
         <Route path="/orphanages/add" exact component={factory.makeCreateOrphanage} />
+        <Route path="/orphanages/add/success" exact component={CreateOrphanageSuccess} />
         <Route path="/orphanages/:id" component={Orphanage} />
       </Switch>
     </BrowserRouter>
