@@ -299,4 +299,11 @@ describe('CreateOrphanage component', () => {
 
     Helper.testElementText(sut, 'main-error', error.message)
   })
+
+  test('Should go to CreateOrphanagesSuccess on success', async () => {
+    const { sut } = makeSut()
+    await simulateValidSubmit(sut)
+
+    expect(history.location.pathname).toBe('/orphanages/add/success')
+  })
 })
