@@ -5,8 +5,9 @@ import Context from '@/presentation/contexts/form/form-context'
 import { Sidebar, FormImagesInput, FormInput, FormTextarea, FormMap, FormButtonSelect, FormStatus } from '@/presentation/components'
 import { AddOrphanage as AddOrphanageUseCase } from '@/domain/usecases/add-orphanage'
 
-import './create-orphanage.css'
 import Spinner from '@/presentation/components/spinner/spinner'
+import './create-orphanage.css'
+import { useHistory } from 'react-router-dom'
 
 type Props = {
   validation: Validation
@@ -39,6 +40,7 @@ type Params = {
 }
 
 function AddOrphanage ({ validation, addOrphanage }: Props) {
+  const history = useHistory()
   const [state, setState] = useState<Params>({
     isLoading: false,
     isFormInvalid: true,
@@ -117,6 +119,8 @@ function AddOrphanage ({ validation, addOrphanage }: Props) {
         open_on_weekend: state.openOnWeekend,
         opening_hours: state.openingHours
       })
+
+      history.replace('/orphanages/add/success')
     } catch (error) {
       setState({
         ...state,
