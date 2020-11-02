@@ -9,7 +9,7 @@ import {
 } from '@testing-library/react'
 import { Router } from 'react-router-dom'
 import { createMemoryHistory } from 'history'
-import AddOrphanageComponent from './create-orphanage'
+import CreateOrphanage from './create-orphanage'
 import {
   AddOrphanageSpy,
   Helper,
@@ -36,7 +36,7 @@ const makeSut = (params?: SutParams): SutTypes => {
   const addOrphanageSpy = new AddOrphanageSpy()
   const sut = render(
     <Router history={history}>
-      <AddOrphanageComponent
+      <CreateOrphanage
         validation={validationStub}
         addOrphanage={addOrphanageSpy}
       />
