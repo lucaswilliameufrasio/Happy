@@ -26,6 +26,12 @@ describe('Orphanage Routes', () => {
         .get('/api/orphanages')
         .expect(200)
     })
+
+    test('Should return 200 on load orphanage by status success', async () => {
+      await request(app)
+        .get('/api/orphanages?approved=true')
+        .expect(200)
+    })
   })
 
   describe('POST /orphanages', () => {
@@ -54,14 +60,6 @@ describe('Orphanage Routes', () => {
 
       await request(app)
         .get(`/api/orphanages/${orphanageId}`)
-        .expect(200)
-    })
-  })
-
-  describe('GET /orphanages/status', () => {
-    test('Should return 200 on load orphanage by status success', async () => {
-      await request(app)
-        .get('/api/orphanages/status?approvedStatus=true')
         .expect(200)
     })
   })
