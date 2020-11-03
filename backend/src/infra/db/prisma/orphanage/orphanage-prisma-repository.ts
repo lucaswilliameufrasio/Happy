@@ -9,7 +9,7 @@ import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 import { UpdateOrphanageParams } from '@/domain/usecases/orphanage/update-orphanage'
 
 export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOrphanageByIdRepository, LoadOrphanagesRepository, LoadOrphanagesByStatusRepository, UpdateOrphanageRepository {
-  constructor (private readonly appUrl: string) {}
+  constructor (private readonly storageUrl: string) {}
 
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
     const { name, latitude, longitude, about, instructions, approved, opening_hours: openingHours, open_on_weekend: openOnWeekend, whatsapp, images } = data
@@ -48,7 +48,7 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
       }
     })
 
-    const orphanageData = addImagesPropertyToOrphanageData(orphanage, this.appUrl)
+    const orphanageData = addImagesPropertyToOrphanageData(orphanage, this.storageUrl)
     return orphanageData
   }
 
@@ -59,7 +59,7 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
       }
     })
 
-    const orphanagesData = orphanages.map(orphanage => addImagesPropertyToOrphanageData(orphanage, this.appUrl))
+    const orphanagesData = orphanages.map(orphanage => addImagesPropertyToOrphanageData(orphanage, this.storageUrl))
     return orphanagesData
   }
 
@@ -73,7 +73,7 @@ export class OrphanagePrismaRepository implements AddOrphanageRepository, LoadOr
       }
     })
 
-    const orphanagesData = orphanages.map(orphanage => addImagesPropertyToOrphanageData(orphanage, this.appUrl))
+    const orphanagesData = orphanages.map(orphanage => addImagesPropertyToOrphanageData(orphanage, this.storageUrl))
     return orphanagesData
   }
 

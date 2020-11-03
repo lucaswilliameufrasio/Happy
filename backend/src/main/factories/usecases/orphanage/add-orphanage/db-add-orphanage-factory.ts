@@ -4,6 +4,6 @@ import { DbAddOrphanage } from '@/data/usecases/orphanage/add-orphanage/db-add-o
 import env from '@/main/config/env'
 
 export const makeDbAddOrphanage = (): AddOrphanage => {
-  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.appUrl)
+  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.storageUrl)
   return new DbAddOrphanage(orphanagePrismaRepository)
 }

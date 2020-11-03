@@ -7,7 +7,7 @@ export const addImageUrl = (data: any, url: string): any[] => {
   const images: OrphanageImage[] = data.OrphanageImage
   const imagesUrl = images?.map(image => {
     const imageName: string = image.name
-    const imageUrl = `${url}/image/${imageName}`
+    const imageUrl = `${url}/${imageName}`
     return { name: imageUrl }
   })
 

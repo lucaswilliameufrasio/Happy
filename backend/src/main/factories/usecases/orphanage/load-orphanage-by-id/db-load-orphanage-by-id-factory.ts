@@ -4,6 +4,6 @@ import { DbLoadOrphanageById } from '@/data/usecases/orphanage/load-orphanage-by
 import env from '@/main/config/env'
 
 export const makeDbLoadOrphanageById = (): LoadOrphanageById => {
-  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.appUrl)
+  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.storageUrl)
   return new DbLoadOrphanageById(orphanagePrismaRepository)
 }

@@ -4,6 +4,6 @@ import { OrphanagePrismaRepository } from '@/infra/db/prisma/orphanage/orphanage
 import env from '@/main/config/env'
 
 export const makeDbUpdateOrphanage = (): UpdateOrphanage => {
-  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.appUrl)
+  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.storageUrl)
   return new DbUpdateOrphanage(orphanagePrismaRepository)
 }
