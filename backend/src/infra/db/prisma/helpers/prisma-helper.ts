@@ -8,7 +8,10 @@ export const addImageUrl = (data: any, url: string): any[] => {
   const imagesUrl = images?.map(image => {
     const imageName: string = image.name
     const imageUrl = `${url}/${imageName}`
-    return { name: imageUrl }
+    return {
+      name: imageName,
+      url: imageUrl
+    }
   })
 
   return imagesUrl
