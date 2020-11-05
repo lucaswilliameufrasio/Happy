@@ -1,30 +1,10 @@
 import { OrphanagePrismaRepository } from './orphanage-prisma-repository'
 import { prisma } from '@/infra/db/prisma/helpers/prisma-helper'
-import { mockAddOrphanageParams, mockApprovedOrphanagesModel, mockOrphanageModel, mockOrphanagesModel, mockUpdateOrphanageParams } from '@/domain/test'
-import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
-import { UpdateOrphanageParams } from '@/domain/usecases/orphanage/update-orphanage'
-import { OrphanageModel } from '@/domain/models/orphanage'
+import { mockAddOrphanagePrisma, mockApprovedOrphanagesPrismaModel, mockLoadOrphanageByIdPrisma, mockLoadOrphanagesPrisma, mockOrphanagePrismaModel, mockOrphanagesPrismaModel, mockUpdateOrphanagePrisma, OrphanagePrismaModel } from '@/infra/db/test'
+import { mockAddOrphanageParams, mockUpdateOrphanageParams } from '@/domain/test'
 import faker from 'faker'
 
-const mockAddOrphanagePrisma = (orphanage: AddOrphanageParams): void => {
-  const orphanageParams = Object.assign({}, orphanage, { id: faker.random.number() })
-  prisma.orphanage.create = jest.fn().mockReturnValueOnce(orphanage)
-  prisma.orphanage.findOne = jest.fn().mockReturnValueOnce(orphanageParams)
-}
-
-const mockLoadOrphanageByIdPrisma = (orphanage: OrphanageModel): void => {
-  prisma.orphanage.findOne = jest.fn().mockReturnValueOnce(orphanage)
-}
-
-const mockLoadOrphanagesPrisma = (orphanages: OrphanageModel[]): void => {
-  prisma.orphanage.findMany = jest.fn().mockReturnValueOnce(orphanages)
-}
-
-const mockUpdateOrphanagePrisma = (updateOrphanageData: UpdateOrphanageParams): void => {
-  prisma.orphanage.update = jest.fn().mockReturnValueOnce(updateOrphanageData.updateData)
-}
-
-const makeSut = (): OrphanagePrismaRepository => {
+export const makeSut = (): OrphanagePrismaRepository => {
   return new OrphanagePrismaRepository(faker.internet.url())
 }
 
