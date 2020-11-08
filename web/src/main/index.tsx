@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { makeCreateOrphanage } from './factories/pages/create-orphanage/create-orphanage-factory'
+import { makeCreateOrphanage, makeOrphanagesMap } from './factories/pages'
 import { Routes } from '@/presentation/components'
 
 import 'leaflet/dist/leaflet.css'
@@ -10,6 +10,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Routes
       makeCreateOrphanage={makeCreateOrphanage}
+      makeOrphanagesMap={makeOrphanagesMap}
     />
   </React.StrictMode>,
   document.getElementById('root')
