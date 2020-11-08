@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "webpack-dev-server --open",
-    "test": "jest --passWithNoTests --no-cache --runInBand",
+    "test": "jest --passWithNoTests --silent --no-cache --runInBand",
+    "test:verbose": "jest --passWithNoTests --no-cache --runInBand",
     "test:watch": "yarn test --watch",
     "test:staged": "yarn test --findRelatedTests"
   },
