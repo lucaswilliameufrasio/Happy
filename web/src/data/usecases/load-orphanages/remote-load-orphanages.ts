@@ -6,7 +6,7 @@ import { LoadOrphanages } from '@/domain/usecases/load-orphanages'
 export class RemoteLoadOrphanages implements LoadOrphanages {
   constructor (
     private readonly url: string,
-    private readonly httpClient: HttpClient
+    private readonly httpClient: HttpClient<LoadOrphanages.Model[]>
   ) {}
 
   async load (): Promise<OrphanageModel[]> {
