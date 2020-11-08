@@ -1,7 +1,8 @@
 import { RemoteLoadOrphanages } from './remote-load-orphanages'
-import { HttpClientSpy } from '@/data/test/mock-http'
 import { HttpStatusCode } from '@/data/protocols/http/http-client'
+import { HttpClientSpy } from '@/data/test/mock-http'
 import { UnexpectedError } from '@/domain/errors/unexpected-error'
+import { mockMultipleOrphanageModel } from '@/domain/test/mock-orphanage'
 import faker from 'faker'
 
 type SutTypes = {
@@ -51,5 +52,19 @@ describe('RemoteLoadOrphanages', () => {
     const promise = sut.load()
 
     await expect(promise).rejects.toThrow(new UnexpectedError())
+  })
+
+  test('Should return an LoadOrphanages.Model if HttpClient returns 200', async () => {
+    const { sut, httpClientSpy } = makeSut()
+    const httpResult = mockMultipleOrphanageModel()
+
+    httpClientSpy.response = {
+      statusCode: HttpStatusCode.ok,
+      body: httpResult
+    }
+
+    const orphanage = await sut.load()
+
+    expect(orphanage).toEqual(httpResult)
   })
 })

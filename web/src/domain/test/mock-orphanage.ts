@@ -1,7 +1,7 @@
-import { AddOrphanage } from '@/domain/usecases/add-orphanage'
+import { OrphanageModel } from '@/domain/models'
 import faker from 'faker'
 
-export const mockOrphanageModel = (): AddOrphanage.Model => ({
+export const mockOrphanageModel = (): OrphanageModel => ({
   id: faker.random.number(),
   name: faker.name.findName(),
   latitude: Number(faker.address.latitude()),
@@ -16,3 +16,8 @@ export const mockOrphanageModel = (): AddOrphanage.Model => ({
     name: faker.random.word()
   }]
 })
+
+export const mockMultipleOrphanageModel = (): OrphanageModel[] => [
+  mockOrphanageModel(),
+  mockOrphanageModel()
+]
