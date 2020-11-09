@@ -41,5 +41,18 @@ export const OrphanageEntity = new EntitySchema<OrphanageModel>({
     approved: {
       type: Boolean
     }
+  },
+  relations: {
+    images: {
+      type: 'one-to-many',
+      target: 'OrphanageImage',
+      inverseSide: 'orphanageId',
+      eager: true,
+      cascade: true,
+      joinColumn: {
+        name: 'id',
+        referencedColumnName: 'orphanageId'
+      }
+    }
   }
 })
