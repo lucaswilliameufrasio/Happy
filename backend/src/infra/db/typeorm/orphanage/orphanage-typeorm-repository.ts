@@ -3,10 +3,11 @@ import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
 import { OrphanageEntity } from '@/infra/db/typeorm/entities/orphanage-entity'
 import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
 import { LoadOrphanagesRepository } from '@/data/protocols/db/orphanage/load-orphanages-repository'
+import { LoadOrphanageByIdRepository } from '@/data/protocols/db/orphanage/load-orphanage-by-id-repository'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
 
-export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadOrphanagesRepository {
+export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadOrphanagesRepository, LoadOrphanageByIdRepository {
   constructor (private readonly storageUrl: string) {}
 
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
@@ -20,5 +21,11 @@ export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadO
     const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
 
     return orphanageRepository.find()
+  }
+
+  async loadById (orphanageId: number): Promise<OrphanageModel> {
+    const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
+
+    return orphanageRepository.findOne(orphanageId)
   }
 }
