@@ -1,6 +1,6 @@
 import { OrphanageTypeORMRepository } from './orphanage-typeorm-repository'
 import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
-import { mockAddOrphanageParams, mockApprovedOrphanageModel } from '@/domain/test'
+import { mockAddOrphanageParams, mockApprovedOrphanageModel, mockUpdateOrphanageParams } from '@/domain/test'
 import { createConnection, getConnection } from 'typeorm'
 import faker from 'faker'
 import path from 'path'
@@ -94,6 +94,21 @@ describe('OrphanageTypeORMRepository', () => {
 
       expect(orphanage).toBeTruthy()
       expect(orphanage[0].id).toEqual(orphanageModel.id)
+    })
+  })
+
+  describe('update()', () => {
+    test('Should update orphanage on success', async () => {
+      const sut = makeSut()
+      await sut.add(mockAddOrphanageParams())
+
+      const updateOrphanageParams = mockUpdateOrphanageParams()
+
+      await sut.update({ orphanageId: 1, updateData: updateOrphanageParams.updateData })
+      const orphanage = await sut.loadById(1)
+
+      expect(orphanage).toBeTruthy()
+      expect(orphanage.name).toEqual(updateOrphanageParams.updateData.name)
     })
   })
 })
