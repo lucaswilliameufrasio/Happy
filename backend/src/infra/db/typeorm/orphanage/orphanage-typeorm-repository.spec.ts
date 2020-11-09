@@ -33,6 +33,7 @@ describe('OrphanageTypeORMRepository', () => {
 
   beforeEach(async () => {
     await TypeORMHelper.connection?.dropDatabase()
+    await TypeORMHelper.connection?.synchronize()
   })
 
   describe('add()', () => {
@@ -55,6 +56,18 @@ describe('OrphanageTypeORMRepository', () => {
       expect(orphanage.opening_hours).toBe(addOrphanageParams.opening_hours)
       expect(orphanage.approved).toBe(addOrphanageParams.approved)
       expect(orphanage.images[0].name).toBe(addOrphanageParams.images[0].name)
+    })
+  })
+
+  describe('load()', () => {
+    test('Should load orphanages on success', async () => {
+      const sut = makeSut()
+      await sut.add(mockAddOrphanageParams())
+      await sut.add(mockAddOrphanageParams())
+      const orphanages = await sut.load()
+
+      expect(orphanages.length).toBe(2)
+      expect(orphanages[0].id).toBeTruthy()
     })
   })
 })
