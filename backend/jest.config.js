@@ -10,6 +10,7 @@ module.exports = {
   coverageDirectory: 'coverage',
   coverageProvider: 'babel',
   testEnvironment: 'node',
+  setupFiles: ['dotenv/config'],
   transform: {
     '.+\\.ts$': 'ts-jest'
   },
