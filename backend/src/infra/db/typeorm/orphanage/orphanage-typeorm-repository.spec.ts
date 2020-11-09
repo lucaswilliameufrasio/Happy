@@ -70,4 +70,17 @@ describe('OrphanageTypeORMRepository', () => {
       expect(orphanages[0].id).toBeTruthy()
     })
   })
+
+  describe('loadById()', () => {
+    test('Should load orphanage by id on success', async () => {
+      const sut = makeSut()
+      const addOrphanageParams = mockAddOrphanageParams()
+      const orphanageModel = await sut.add(addOrphanageParams)
+
+      const orphanage = await sut.loadById(orphanageModel.id)
+
+      expect(orphanage).toBeTruthy()
+      expect(orphanage.id).toEqual(orphanageModel.id)
+    })
+  })
 })
