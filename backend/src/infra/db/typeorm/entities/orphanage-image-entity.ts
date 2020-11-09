@@ -1,7 +1,7 @@
-import { OrphanageImage } from '@prisma/client'
+import { OrphanageImageModel } from '@/domain/models/orphanage'
 import { EntitySchema } from 'typeorm'
 
-export const OrphanageImageEntity = new EntitySchema<OrphanageImage>({
+export const OrphanageImageEntity = new EntitySchema<OrphanageImageModel>({
   name: 'OrphanageImage',
   tableName: 'OrphanageImage',
   columns: {
