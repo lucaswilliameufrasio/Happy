@@ -1,5 +1,7 @@
 export type OrphanageImageModel = {
+  id: number
   name: string
+  orphanageId: number
 }
 
 export type OrphanageModel = {
@@ -13,5 +15,5 @@ export type OrphanageModel = {
   opening_hours: string
   open_on_weekend: boolean
   approved: boolean
-  images: OrphanageImageModel[]
+  images: Array<Omit<OrphanageImageModel, 'id'|'orphanageId'>>
 }
