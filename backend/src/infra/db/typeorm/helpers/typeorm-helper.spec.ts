@@ -1,9 +1,10 @@
 import { TypeORMHelper as sut } from './typeorm-helper'
+import { testConnectionOptions } from '@/infra/db/typeorm/test/typeorm-test-helper'
 import { OrphanageEntity } from '@/infra/db/typeorm/entities/orphanage-entity'
 
 describe('TypeORMHelper', () => {
   beforeAll(async () => {
-    await sut.connect(process.env.DATABASE_URL)
+    await sut.connect(testConnectionOptions)
   })
 
   afterAll(async () => {

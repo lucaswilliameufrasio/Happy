@@ -1,9 +1,8 @@
 import { OrphanageTypeORMRepository } from './orphanage-typeorm-repository'
 import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
+import { testConnectionOptions } from '@/infra/db/typeorm/test/typeorm-test-helper'
 import { mockAddOrphanageParams, mockApprovedOrphanageModel, mockUpdateOrphanageParams } from '@/domain/test'
-import { createConnection, getConnection } from 'typeorm'
 import faker from 'faker'
-import path from 'path'
 
 export const makeSut = (): OrphanageTypeORMRepository => {
   return new OrphanageTypeORMRepository(faker.internet.url())
@@ -11,20 +10,7 @@ export const makeSut = (): OrphanageTypeORMRepository => {
 
 describe('OrphanageTypeORMRepository', () => {
   beforeAll(async () => {
-    TypeORMHelper.connect = jest.fn().mockImplementationOnce(async () => {
-      await createConnection({
-        type: 'sqlite',
-        database: ':memory:',
-        dropSchema: true,
-        entities: [
-          path.join(__dirname, '..', 'entities/**/!(*.map)')
-        ],
-        synchronize: true,
-        logging: false
-      })
-
-      TypeORMHelper.connection = getConnection()
-    })
+    await TypeORMHelper.connect(testConnectionOptions)
   })
 
   afterAll(async () => {
