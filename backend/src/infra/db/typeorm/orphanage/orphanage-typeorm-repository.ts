@@ -23,24 +23,24 @@ export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadO
 
   async load (): Promise<OrphanageModel[]> {
     const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
-
-    return orphanageRepository.find()
+    const orphanages = await orphanageRepository.find()
+    return orphanages ? orphanages.map(orphanage => SerializeOrphanageData.injectURL(orphanage, this.storageUrl)) : null
   }
 
   async loadById (orphanageId: number): Promise<OrphanageModel> {
     const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
-
-    return orphanageRepository.findOne(orphanageId)
+    const orphanage = await orphanageRepository.findOne(orphanageId)
+    return SerializeOrphanageData.injectURL(orphanage, this.storageUrl)
   }
 
   async loadByStatus (approvedStatus: boolean): Promise<OrphanageModel[]> {
     const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
-
-    return orphanageRepository.find({
+    const orphanages = await orphanageRepository.find({
       where: {
         approved: approvedStatus
       }
     })
+    return orphanages ? orphanages.map(orphanage => SerializeOrphanageData.injectURL(orphanage, this.storageUrl)) : null
   }
 
   async update (updateOrphanageData: UpdateOrphanageParams): Promise<void> {
