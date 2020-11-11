@@ -1,8 +1,12 @@
 import { OrphanageTypeORMRepository } from './orphanage-typeorm-repository'
 import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
+import { OrphanageEntity } from '@/infra/db/typeorm/entities/orphanage-entity'
 import { testConnectionOptions } from '@/infra/db/typeorm/test/typeorm-test-helper'
 import { mockAddOrphanageParams, mockApprovedOrphanageModel, mockUpdateOrphanageParams } from '@/domain/test'
+import { Repository } from 'typeorm'
 import faker from 'faker'
+
+let orphanageRepository: Repository<any>
 
 export const makeSut = (): OrphanageTypeORMRepository => {
   return new OrphanageTypeORMRepository(faker.internet.url())
@@ -20,6 +24,7 @@ describe('OrphanageTypeORMRepository', () => {
   beforeEach(async () => {
     await TypeORMHelper.connection?.dropDatabase()
     await TypeORMHelper.connection?.synchronize()
+    orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
   })
 
   describe('add()', () => {
@@ -48,8 +53,8 @@ describe('OrphanageTypeORMRepository', () => {
   describe('load()', () => {
     test('Should load orphanages on success', async () => {
       const sut = makeSut()
-      await sut.add(mockAddOrphanageParams())
-      await sut.add(mockAddOrphanageParams())
+      await orphanageRepository.save(mockAddOrphanageParams())
+      await orphanageRepository.save(mockAddOrphanageParams())
       const orphanages = await sut.load()
 
       expect(orphanages.length).toBe(2)
@@ -61,7 +66,7 @@ describe('OrphanageTypeORMRepository', () => {
     test('Should load orphanage by id on success', async () => {
       const sut = makeSut()
       const addOrphanageParams = mockAddOrphanageParams()
-      const orphanageModel = await sut.add(addOrphanageParams)
+      const orphanageModel = await orphanageRepository.save(addOrphanageParams)
 
       const orphanage = await sut.loadById(orphanageModel.id)
 
@@ -74,7 +79,7 @@ describe('OrphanageTypeORMRepository', () => {
     test('Should load orphanages by status on success', async () => {
       const sut = makeSut()
       const { id, ...params } = mockApprovedOrphanageModel()
-      const orphanageModel = await sut.add(params)
+      const orphanageModel = await orphanageRepository.save(params)
 
       const orphanage = await sut.loadByStatus(true)
 
@@ -91,7 +96,7 @@ describe('OrphanageTypeORMRepository', () => {
       const updateOrphanageParams = mockUpdateOrphanageParams()
 
       await sut.update({ orphanageId: 1, updateData: updateOrphanageParams.updateData })
-      const orphanage = await sut.loadById(1)
+      const orphanage = await orphanageRepository.findOne(1)
 
       expect(orphanage).toBeTruthy()
       expect(orphanage.name).toEqual(updateOrphanageParams.updateData.name)
