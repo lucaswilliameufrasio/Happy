@@ -1,7 +1,7 @@
 import { OrphanageModel } from '@/domain/models/orphanage'
 
-export const OrphanageTypeORMHelper = {
-  assignImageURL (data: OrphanageModel, url: string): OrphanageModel {
+export const SerializeOrphanageData = {
+  injectURL (data: OrphanageModel, url: string): OrphanageModel {
     if (!data) return null
     const { images, ...rest } = data
 

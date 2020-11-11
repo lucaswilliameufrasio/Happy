@@ -1,5 +1,5 @@
-import { OrphanageTypeORMHelper } from './orphanage-typeorm-repository-helper'
 import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
+import { SerializeOrphanageData } from '@/infra/db/helpers'
 import { OrphanageEntity } from '@/infra/db/typeorm/entities/orphanage-entity'
 import { AddOrphanageRepository } from '@/data/protocols/db/orphanage/add-orphanage-repository'
 import { LoadOrphanagesRepository } from '@/data/protocols/db/orphanage/load-orphanages-repository'
@@ -18,7 +18,7 @@ export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadO
     const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
     const orphanage = await orphanageRepository.save(data)
 
-    return OrphanageTypeORMHelper.assignImageURL(orphanage, this.storageUrl)
+    return SerializeOrphanageData.injectURL(orphanage, this.storageUrl)
   }
 
   async load (): Promise<OrphanageModel[]> {
