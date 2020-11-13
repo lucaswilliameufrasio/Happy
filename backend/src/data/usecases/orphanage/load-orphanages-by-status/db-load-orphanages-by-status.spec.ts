@@ -1,20 +1,23 @@
 import { DbLoadOrphanagesByStatus } from './db-load-orphanages-by-status'
-import { LoadOrphanagesByStatusRepositorySpy } from '@/data/test'
-import { mockApprovedOrphanagesModel, throwError } from '@/domain/test'
+import { LoadOrphanagesByStatusRepositorySpy, StorageServiceSpy } from '@/data/test'
+import { throwError } from '@/domain/test'
 import faker from 'faker'
 
 type SutTypes = {
   sut: DbLoadOrphanagesByStatus
   loadOrphanagesByStatusRepositorySpy: LoadOrphanagesByStatusRepositorySpy
+  storageServiceSpy: StorageServiceSpy
 }
 
 const makeSut = (): SutTypes => {
   const loadOrphanagesByStatusRepositorySpy = new LoadOrphanagesByStatusRepositorySpy()
-  const sut = new DbLoadOrphanagesByStatus(loadOrphanagesByStatusRepositorySpy)
+  const storageServiceSpy = new StorageServiceSpy()
+  const sut = new DbLoadOrphanagesByStatus(loadOrphanagesByStatusRepositorySpy, storageServiceSpy)
 
   return {
     sut,
-    loadOrphanagesByStatusRepositorySpy
+    loadOrphanagesByStatusRepositorySpy,
+    storageServiceSpy
   }
 }
 
@@ -28,16 +31,6 @@ describe('DbLoadOrphanagesByStatus UseCase', () => {
     expect(loadOrphanagesByStatusRepositorySpy.approved).toBe(approved)
   })
 
-  test('Should return a list of approved Orphanages on success', async () => {
-    const { sut, loadOrphanagesByStatusRepositorySpy } = makeSut()
-
-    loadOrphanagesByStatusRepositorySpy.orphanageModel = mockApprovedOrphanagesModel()
-
-    const orphanage = await sut.loadByStatus(true)
-
-    expect(orphanage).toEqual(loadOrphanagesByStatusRepositorySpy.orphanageModel)
-  })
-
   test('Should throw if LoadOrphanagesByStatusRepository throws', async () => {
     const { sut, loadOrphanagesByStatusRepositorySpy } = makeSut()
     jest.spyOn(loadOrphanagesByStatusRepositorySpy, 'loadByStatus').mockImplementationOnce(throwError)
@@ -45,5 +38,15 @@ describe('DbLoadOrphanagesByStatus UseCase', () => {
     const promise = sut.loadByStatus(faker.random.boolean())
 
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return a list of approved Orphanages on success', async () => {
+    const { sut, loadOrphanagesByStatusRepositorySpy, storageServiceSpy } = makeSut()
+
+    const orphanages = await sut.loadByStatus(true)
+    const orphanageImageName = orphanages[0].images[0].name
+
+    expect(orphanages).toEqual(loadOrphanagesByStatusRepositorySpy.orphanageModel)
+    expect(orphanages[0].images[0].url).toEqual(`${storageServiceSpy.url}/${orphanageImageName}`)
   })
 })
