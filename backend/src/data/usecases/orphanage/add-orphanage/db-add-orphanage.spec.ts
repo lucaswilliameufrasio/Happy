@@ -1,20 +1,23 @@
 import { DbAddOrphanage } from './db-add-orphanage'
-import { AddOrphanageRepositorySpy } from '@/data/test'
+import { AddOrphanageRepositorySpy, StorageServiceSpy } from '@/data/test'
 import { throwError } from '@/domain/test'
 import { mockAddOrphanageParams } from '@/domain/test/mock-orphanage'
 
 type SutTypes = {
   sut: DbAddOrphanage
   addOrphanageRepositorySpy: AddOrphanageRepositorySpy
+  storageServiceSpy: StorageServiceSpy
 }
 
 const makeSut = (): SutTypes => {
   const addOrphanageRepositorySpy = new AddOrphanageRepositorySpy()
-  const sut = new DbAddOrphanage(addOrphanageRepositorySpy)
+  const storageServiceSpy = new StorageServiceSpy()
+  const sut = new DbAddOrphanage(addOrphanageRepositorySpy, storageServiceSpy)
 
   return {
     sut,
-    addOrphanageRepositorySpy
+    addOrphanageRepositorySpy,
+    storageServiceSpy
   }
 }
 
@@ -50,11 +53,13 @@ describe('DbAddOrphanage UseCase', () => {
   })
 
   test('Should return an orphanage on success', async () => {
-    const { sut, addOrphanageRepositorySpy } = makeSut()
+    const { sut, addOrphanageRepositorySpy, storageServiceSpy } = makeSut()
 
     const addOrphanageParams = mockAddOrphanageParams()
     const orphanage = await sut.add(addOrphanageParams)
+    const orphanageImageName = orphanage.images[0].name
 
     expect(orphanage).toEqual(addOrphanageRepositorySpy.orphanageModel)
+    expect(orphanage.images[0].url).toEqual(`${storageServiceSpy.url}/${orphanageImageName}`)
   })
 })
