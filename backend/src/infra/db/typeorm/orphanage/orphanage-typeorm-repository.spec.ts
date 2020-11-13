@@ -3,10 +3,11 @@ import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
 import { OrphanageEntity } from '@/infra/db/typeorm/entities/orphanage-entity'
 import { testConnectionOptions } from '@/infra/db/typeorm/test/typeorm-test-helper'
 import { mockAddOrphanageParams, mockApprovedOrphanageModel, mockUpdateOrphanageParams } from '@/domain/test'
+import { OrphanageModel } from '@/domain/models/orphanage'
 import { Repository } from 'typeorm'
 import faker from 'faker'
 
-let orphanageRepository: Repository<any>
+let orphanageRepository: Repository<OrphanageModel>
 
 export const makeSut = (): OrphanageTypeORMRepository => {
   return new OrphanageTypeORMRepository(faker.internet.url())

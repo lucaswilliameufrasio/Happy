@@ -15,26 +15,26 @@ export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadO
   constructor (private readonly storageUrl: string) {}
 
   async add (data: AddOrphanageParams): Promise<OrphanageModel> {
-    const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
+    const orphanageRepository = await TypeORMHelper.getRepository<OrphanageModel>(OrphanageEntity)
     const orphanage = await orphanageRepository.save(data)
 
     return SerializeOrphanageData.injectURL(orphanage, this.storageUrl)
   }
 
   async load (): Promise<OrphanageModel[]> {
-    const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
+    const orphanageRepository = await TypeORMHelper.getRepository<OrphanageModel>(OrphanageEntity)
     const orphanages = await orphanageRepository.find()
     return orphanages ? orphanages.map(orphanage => SerializeOrphanageData.injectURL(orphanage, this.storageUrl)) : null
   }
 
   async loadById (orphanageId: number): Promise<OrphanageModel> {
-    const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
+    const orphanageRepository = await TypeORMHelper.getRepository<OrphanageModel>(OrphanageEntity)
     const orphanage = await orphanageRepository.findOne(orphanageId)
     return SerializeOrphanageData.injectURL(orphanage, this.storageUrl)
   }
 
   async loadByStatus (approvedStatus: boolean): Promise<OrphanageModel[]> {
-    const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
+    const orphanageRepository = await TypeORMHelper.getRepository<OrphanageModel>(OrphanageEntity)
     const orphanages = await orphanageRepository.find({
       where: {
         approved: approvedStatus
@@ -44,7 +44,7 @@ export class OrphanageTypeORMRepository implements AddOrphanageRepository, LoadO
   }
 
   async update (updateOrphanageData: UpdateOrphanageParams): Promise<void> {
-    const orphanageRepository = await TypeORMHelper.getRepository(OrphanageEntity)
+    const orphanageRepository = await TypeORMHelper.getRepository<OrphanageModel>(OrphanageEntity)
     const data: QueryPartialEntity<any> = updateOrphanageData.updateData
     await orphanageRepository.update(updateOrphanageData.orphanageId, data)
   }

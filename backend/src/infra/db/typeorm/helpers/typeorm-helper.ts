@@ -16,7 +16,7 @@ export const TypeORMHelper = {
     this.connection = null
   },
 
-  async getRepository (entity: EntitySchema): Promise<Repository<any>> {
+  async getRepository<T> (entity: EntitySchema): Promise<Repository<T>> {
     if (!this.connection?.isConnected) {
       await this.connect(this.connectionOptions)
     }
