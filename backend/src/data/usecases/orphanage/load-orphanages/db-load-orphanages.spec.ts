@@ -1,19 +1,22 @@
 import { DbLoadOrphanages } from './db-load-orphanages'
-import { LoadOrphanagesRepositorySpy } from '@/data/test'
+import { LoadOrphanagesRepositorySpy, StorageServiceSpy } from '@/data/test'
 import { throwError } from '@/domain/test'
 
 type SutTypes = {
   sut: DbLoadOrphanages
   loadOrphanagesRepositorySpy: LoadOrphanagesRepositorySpy
+  storageServiceSpy: StorageServiceSpy
 }
 
 const makeSut = (): SutTypes => {
   const loadOrphanagesRepositorySpy = new LoadOrphanagesRepositorySpy()
-  const sut = new DbLoadOrphanages(loadOrphanagesRepositorySpy)
+  const storageServiceSpy = new StorageServiceSpy()
+  const sut = new DbLoadOrphanages(loadOrphanagesRepositorySpy, storageServiceSpy)
 
   return {
     sut,
-    loadOrphanagesRepositorySpy
+    loadOrphanagesRepositorySpy,
+    storageServiceSpy
   }
 }
 
@@ -26,13 +29,6 @@ describe('DbLoadOrphanages UseCase', () => {
     expect(loadOrphanagesRepositorySpy.calls).toBe(1)
   })
 
-  test('Should return a list of Orphanages on success', async () => {
-    const { sut, loadOrphanagesRepositorySpy } = makeSut()
-    const orphanage = await sut.load()
-
-    expect(orphanage).toEqual(loadOrphanagesRepositorySpy.orphanageModel)
-  })
-
   test('Should throw if LoadOrphanagesRepository throws', async () => {
     const { sut, loadOrphanagesRepositorySpy } = makeSut()
     jest.spyOn(loadOrphanagesRepositorySpy, 'load').mockImplementationOnce(throwError)
@@ -40,5 +36,14 @@ describe('DbLoadOrphanages UseCase', () => {
     const promise = sut.load()
 
     await expect(promise).rejects.toThrow()
+  })
+
+  test('Should return a list of Orphanages on success', async () => {
+    const { sut, loadOrphanagesRepositorySpy, storageServiceSpy } = makeSut()
+    const orphanages = await sut.load()
+    const orphanageImageName = orphanages[0].images[0].name
+
+    expect(orphanages).toEqual(loadOrphanagesRepositorySpy.orphanageModel)
+    expect(orphanages[0].images[0].url).toEqual(`${storageServiceSpy.url}/${orphanageImageName}`)
   })
 })
