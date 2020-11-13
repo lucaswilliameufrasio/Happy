@@ -1,10 +1,10 @@
 
-import { OrphanagePrismaRepository } from '@/infra/db/prisma/orphanage/orphanage-prisma-repository'
-import { DbLoadOrphanagesByStatus } from '@/data/usecases/orphanage/load-orphanages-by-status/db-load-orphanages-by-status'
 import { LoadOrphanagesByStatus } from '@/domain/usecases/orphanage/load-orphanages-by-status'
+import { DbLoadOrphanagesByStatus } from '@/data/usecases/orphanage/load-orphanages-by-status/db-load-orphanages-by-status'
+import { OrphanageTypeORMRepository } from '@/infra/db/typeorm/orphanage/orphanage-typeorm-repository'
 import env from '@/main/config/env'
 
 export const makeDbLoadOrphanagesByStatus = (): LoadOrphanagesByStatus => {
-  const orphanagePrismaRepository = new OrphanagePrismaRepository(env.storageUrl)
-  return new DbLoadOrphanagesByStatus(orphanagePrismaRepository)
+  const orphanageTypeORMRepository = new OrphanageTypeORMRepository(env.storageUrl)
+  return new DbLoadOrphanagesByStatus(orphanageTypeORMRepository)
 }

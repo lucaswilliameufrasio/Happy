@@ -1,33 +1,50 @@
-import request from 'supertest'
-import app from '@/main/config/app'
-import { prisma } from '@/infra/db/prisma/helpers/prisma-helper'
 import { getAssetPathHelper } from '@/shared/test/helpers/get-asset-path-helper'
-import { mockAddOrphanageParams, mockOrphanageModel, mockOrphanagesModel, mockUpdateOrphanageParams } from '@/domain/test'
-import { AddOrphanageParams } from '@/domain/usecases/orphanage/add-orphanage'
+import app from '@/main/config/app'
+import { TypeORMHelper } from '@/infra/db/typeorm/helpers'
+import { OrphanageEntity } from '@/infra/db/typeorm/entities/orphanage-entity'
+import { testConnectionOptions } from '@/infra/db/typeorm/test/typeorm-test-helper'
 import { OrphanageModel } from '@/domain/models/orphanage'
+import { mockAddOrphanageParams } from '@/domain/test'
 
-const mockOrphanagePrisma = (orphanageParams: AddOrphanageParams, orphanageModel: OrphanageModel): void => {
-  prisma.orphanage.create = jest.fn().mockReturnValueOnce(orphanageParams)
-  prisma.orphanage.findOne = jest.fn().mockReturnValueOnce(orphanageModel)
-  prisma.orphanage.findMany = jest.fn().mockReturnValueOnce(mockOrphanagesModel())
-  prisma.orphanage.update = jest.fn().mockReturnValueOnce(mockUpdateOrphanageParams().updateData)
+import request from 'supertest'
+import { Repository } from 'typeorm'
+
+let orphanageRepository: Repository<OrphanageModel>
+
+const makeOrphanage = async (): Promise<OrphanageModel> => {
+  const orphanage = await orphanageRepository.save(mockAddOrphanageParams())
+  await orphanageRepository.update(orphanage.id, {
+    approved: true
+  })
+
+  return orphanage
 }
 
-const addOrphanageParams: AddOrphanageParams = mockAddOrphanageParams()
-const orphanageData: OrphanageModel = mockOrphanageModel()
 describe('Orphanage Routes', () => {
-  beforeEach(() => {
-    mockOrphanagePrisma(addOrphanageParams, orphanageData)
+  beforeAll(async () => {
+    await TypeORMHelper.connect(testConnectionOptions)
+  })
+
+  afterAll(async () => {
+    await TypeORMHelper.disconnect()
+  })
+
+  beforeEach(async () => {
+    await TypeORMHelper.connection?.dropDatabase()
+    await TypeORMHelper.connection?.synchronize()
+    orphanageRepository = await TypeORMHelper.getRepository<OrphanageModel>(OrphanageEntity)
   })
 
   describe('GET /orphanages', () => {
     test('Should return 200 on load orphanage success', async () => {
+      await makeOrphanage()
       await request(app)
         .get('/api/orphanages')
         .expect(200)
     })
 
     test('Should return 200 on load orphanage by status success', async () => {
+      await makeOrphanage()
       await request(app)
         .get('/api/orphanages?approved=true')
         .expect(200)
@@ -56,7 +73,8 @@ describe('Orphanage Routes', () => {
 
   describe('GET /orphanages/:orphanageId', () => {
     test('Should return 200 on load orphanage by id success', async () => {
-      const orphanageId: number = orphanageData.id
+      const result = await makeOrphanage()
+      const orphanageId: number = result.id
 
       await request(app)
         .get(`/api/orphanages/${orphanageId}`)
@@ -66,7 +84,8 @@ describe('Orphanage Routes', () => {
 
   describe('PUT /orphanages/:orphanageId', () => {
     test('Should return 204 on update orphanage success', async () => {
-      const orphanageId: number = orphanageData.id
+      const result = await makeOrphanage()
+      const orphanageId: number = result.id
 
       await request(app)
         .put(`/api/orphanages/${orphanageId}`)
