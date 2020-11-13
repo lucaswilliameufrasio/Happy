@@ -8,6 +8,6 @@ export const typeORMConnectionOptions: ConnectionOptions = {
   entities: [
     path.join(__dirname, '..', '..', 'infra', 'db', 'typeorm', 'entities/**/!(*.map)')
   ],
-  synchronize: Boolean(env.typeORMEnableLogging),
-  logging: Boolean(env.typeORMEnableSynchronization)
+  synchronize: Boolean(env.typeORMEnableSynchronization),
+  logging: Boolean(env.typeORMEnableLogging)
 }
