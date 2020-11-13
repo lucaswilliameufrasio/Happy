@@ -5,12 +5,11 @@ import { testConnectionOptions } from '@/infra/db/typeorm/test/typeorm-test-help
 import { mockAddOrphanageParams, mockApprovedOrphanageModel, mockUpdateOrphanageParams } from '@/domain/test'
 import { OrphanageModel } from '@/domain/models/orphanage'
 import { Repository } from 'typeorm'
-import faker from 'faker'
 
 let orphanageRepository: Repository<OrphanageModel>
 
 export const makeSut = (): OrphanageTypeORMRepository => {
-  return new OrphanageTypeORMRepository(faker.internet.url())
+  return new OrphanageTypeORMRepository()
 }
 
 describe('OrphanageTypeORMRepository', () => {
