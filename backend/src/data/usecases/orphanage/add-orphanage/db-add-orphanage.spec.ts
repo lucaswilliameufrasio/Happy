@@ -52,17 +52,6 @@ describe('DbAddOrphanage UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an orphanage without images url', async () => {
-    const { sut, addOrphanageRepositorySpy, storageServiceSpy } = makeSut()
-
-    storageServiceSpy.url = null
-    const addOrphanageParams = mockAddOrphanageParams()
-    const orphanage = await sut.add(addOrphanageParams)
-
-    expect(orphanage).toEqual(addOrphanageRepositorySpy.orphanageModel)
-    expect(orphanage.images[0].url).toBeUndefined()
-  })
-
   test('Should return an orphanage on success', async () => {
     const { sut, addOrphanageRepositorySpy, storageServiceSpy } = makeSut()
 

@@ -45,16 +45,6 @@ describe('DbLoadOrphanageById UseCase', () => {
     await expect(promise).rejects.toThrow()
   })
 
-  test('Should return an orphanage without images url', async () => {
-    const { sut, loadOrphanageByIdRepositorySpy, storageServiceSpy } = makeSut()
-
-    storageServiceSpy.url = null
-    const orphanage = await sut.loadById(orphanageId)
-
-    expect(orphanage).toEqual(loadOrphanageByIdRepositorySpy.orphanageModel)
-    expect(orphanage.images[0].url).toBeUndefined()
-  })
-
   test('Should return an Orphanage on success', async () => {
     const { sut, loadOrphanageByIdRepositorySpy, storageServiceSpy } = makeSut()
     const orphanage = await sut.loadById(orphanageId)
