@@ -16,11 +16,13 @@ services:
     image: node:12
     working_dir: /usr/app/happy-backend
     restart: always
-    command: bash -c "npm install --only=prod && npx prisma migrate up --experimental && npm run debug"
+    command: bash -c "npm install --only=prod && npm run debug"
     environment:
+      - DATABASE_DRIVER=postgres
       - DATABASE_URL=postgresql://postgres:happy@postgres:5432/happy?schema=public
+      - TYPEORM_LOGGING=false
+      - TYPEORM_SYNCHRONIZE=true
     volumes:
-      - ./prisma/:/usr/app/happy-backend/prisma/
       - ./dist/:/usr/app/happy-backend/dist/
       - ./package.json:/usr/app/happy-backend/package.json
     ports:
