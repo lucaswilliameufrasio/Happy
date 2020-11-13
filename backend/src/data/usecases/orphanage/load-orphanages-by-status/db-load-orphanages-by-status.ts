@@ -9,11 +9,13 @@ export class DbLoadOrphanagesByStatus implements LoadOrphanagesByStatus {
   async loadByStatus (approvedStatus: boolean): Promise<OrphanageModel[]> {
     let orphanages = await this.loadOrphanagesByStatusRepository.loadByStatus(approvedStatus)
     const storageUrl = await this.storageService.getStorageUrl()
-    orphanages = orphanages.map(orphanage => {
-      orphanage.images = orphanage.images.map(image => ({ name: image.name, url: `${storageUrl}/${image.name}` }))
+    if (orphanages) {
+      orphanages = orphanages.map(orphanage => {
+        orphanage.images = orphanage.images.map(image => ({ name: image.name, url: `${storageUrl}/${image.name}` }))
 
-      return orphanage
-    })
+        return orphanage
+      })
+    }
     return orphanages
   }
 }
