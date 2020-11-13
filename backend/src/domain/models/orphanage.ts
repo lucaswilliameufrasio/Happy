@@ -1,6 +1,7 @@
 export type OrphanageImageModel = {
   id: number
   name: string
+  url?: string
   orphanageId: number
 }
 
