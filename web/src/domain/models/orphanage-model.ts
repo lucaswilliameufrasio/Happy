@@ -1,5 +1,6 @@
 export type OrphanageImageModel = {
   name: string
+  url: string
 }
 
 export type OrphanageModel = {

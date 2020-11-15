@@ -13,7 +13,8 @@ export const mockOrphanageModel = (): OrphanageModel => ({
   opening_hours: faker.random.words(),
   approved: faker.random.boolean(),
   images: [{
-    name: faker.random.word()
+    name: faker.random.word(),
+    url: faker.internet.url()
   }]
 })
 
