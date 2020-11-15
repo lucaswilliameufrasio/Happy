@@ -1,10 +1,11 @@
 import React from 'react'
 import { BrowserRouter, Route, Switch } from 'react-router-dom'
-import { Landing, Orphanage, CreateOrphanageSuccess } from '@/presentation/pages'
+import { Landing, CreateOrphanageSuccess } from '@/presentation/pages'
 
 type Factory = {
   makeCreateOrphanage: () => JSX.Element
   makeOrphanagesMap: () => JSX.Element
+  makeOrphanage: () => JSX.Element
 }
 
 function Routes (factory: Factory) {
@@ -15,7 +16,7 @@ function Routes (factory: Factory) {
         <Route path="/app" exact component={factory.makeOrphanagesMap} />
         <Route path="/orphanages/add" exact component={factory.makeCreateOrphanage} />
         <Route path="/orphanages/add/success" exact component={CreateOrphanageSuccess} />
-        <Route path="/orphanages/:id" component={Orphanage} />
+        <Route path="/orphanages/:id" component={factory.makeOrphanage} />
       </Switch>
     </BrowserRouter>
   )
