@@ -1,4 +1,5 @@
-import { HttpClient } from '@/data/protocols/http/http-client'
+import { HttpClient, HttpStatusCode } from '@/data/protocols/http/http-client'
+import { UnexpectedError } from '@/domain/errors/unexpected-error'
 import { OrphanageModel } from '@/domain/models'
 import { LoadOrphanageById } from '@/domain/usecases/load-orphanage-by-id'
 
@@ -9,11 +10,14 @@ export class RemoteLoadOrphanageById implements LoadOrphanageById {
   ) {}
 
   async loadById (): Promise<OrphanageModel> {
-    await this.httpClient.request({
+    const httpResponse = await this.httpClient.request({
       url: this.url,
       method: 'get'
     })
 
-    return null
+    switch (httpResponse.statusCode) {
+      case HttpStatusCode.ok: return httpResponse.body
+      default: throw new UnexpectedError()
+    }
   }
 }
