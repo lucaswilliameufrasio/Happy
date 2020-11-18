@@ -4,7 +4,7 @@ import MapView, { Marker } from 'react-native-maps'
 import { Feather, FontAwesome } from '@expo/vector-icons'
 import { RectButton } from 'react-native-gesture-handler'
 
-import mapMarkerImg from '../../../../assets/map-marker.png'
+import mapMarkerImg from '../../../../assets/images/map-marker.png'
 import styles from './orphanage-details-styles'
 
 export default function OrphanageDetails () {
