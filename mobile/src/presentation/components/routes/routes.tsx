@@ -2,11 +2,7 @@ import React from 'react'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 
-import OrphanagesMap from '../../screens/orphanages-map/orphanages-map'
-import OrphanageDetails from '../../screens/orphanage-details/orphanage-details'
-import CreateOrphanageOnMapPosition from '../../screens/create-orphanage/create-orphanage-on-map-position/create-orphanage-on-map-position'
-import CreateOrphanageFormStepOne from '../../screens/create-orphanage/create-orphanage-form-step-one/create-orphanage-form-step-one'
-import CreateOrphanageFormStepTwo from '../../screens/create-orphanage/create-orphanage-form-step-two/create-orphanage-form-step-two'
+import { OrphanagesMap, OrphanageDetails, CreateOrphanageOnMapPosition, CreateOrphanageFormStepOne, CreateOrphanageFormStepTwo } from '../../screens'
 import Header from '../header/header'
 
 const AppStack = createStackNavigator()
