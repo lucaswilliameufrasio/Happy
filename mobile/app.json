@@ -23,7 +23,8 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#2AB5D1"
-      }
+      },
+      "package": "com.lucaswilliameufrasio.happy"
     },
     "web": {
       "favicon": "./assets/favicon.png"
