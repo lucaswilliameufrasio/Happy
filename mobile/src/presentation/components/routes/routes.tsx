@@ -4,6 +4,9 @@ import { createStackNavigator } from '@react-navigation/stack'
 
 import OrphanagesMap from '../../screens/orphanages-map/orphanages-map'
 import OrphanageDetails from '../../screens/orphanage-details/orphanage-details'
+import CreateOrphanageOnMapPosition from '../../screens/create-orphanage/create-orphanage-on-map-position/create-orphanage-on-map-position'
+import CreateOrphanageFormStepOne from '../../screens/create-orphanage/create-orphanage-form-step-one/create-orphanage-form-step-one'
+import CreateOrphanageFormStepTwo from '../../screens/create-orphanage/create-orphanage-form-step-two/create-orphanage-form-step-two'
 import Header from '../header/header'
 
 const AppStack = createStackNavigator()
@@ -25,6 +28,30 @@ function Routes () {
           options={{
             headerShown: true,
             header: () => <Header showCancel={false} title="Orfanato" />
+          }}
+        />
+        <AppStack.Screen
+          name="CreateOrphanage"
+          component={CreateOrphanageOnMapPosition}
+          options={{
+            headerShown: true,
+            header: () => <Header title="Selecione no mapa" />
+          }}
+        />
+        <AppStack.Screen
+          name="CreateOrphanageFormStepOne"
+          component={CreateOrphanageFormStepOne}
+          options={{
+            headerShown: true,
+            header: () => <Header title="Adicione os dados" />
+          }}
+        />
+        <AppStack.Screen
+          name="CreateOrphanageFormStepTwo"
+          component={CreateOrphanageFormStepTwo}
+          options={{
+            headerShown: true,
+            header: () => <Header title="Adicione os dados" />
           }}
         />
       </AppStack.Navigator>
