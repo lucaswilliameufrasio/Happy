@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     borderWidth: 1.4,
     height: 56,
     justifyContent: 'center',
-    marginBottom: 32
+    marginBottom: 16
   },
 
   input: {
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
     height: 56,
     justifyContent: 'center',
-    marginTop: 32
+    marginTop: 20
   },
 
   nextButtonText: {
