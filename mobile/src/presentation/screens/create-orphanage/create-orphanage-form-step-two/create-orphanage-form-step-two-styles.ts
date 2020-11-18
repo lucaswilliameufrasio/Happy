@@ -94,13 +94,22 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   },
 
-  selectedButton: {
+  selectedFirstButton: {
     backgroundColor: '#EDFFF6',
     borderColor: '#3CDC8C'
   },
 
-  selectedButtonText: {
+  selectedFirstButtonText: {
     color: '#3CDC8C'
+  },
+
+  selectedSecondButton: {
+    backgroundColor: '#FBF0F4',
+    borderColor: '#ECB4B7'
+  },
+
+  selectedSecondButtonText: {
+    color: '#FF669D'
   },
 
   title: {

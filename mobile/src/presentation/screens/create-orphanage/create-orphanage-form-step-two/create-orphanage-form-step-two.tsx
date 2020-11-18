@@ -82,16 +82,16 @@ function CreateOrphanageFormStepTwo () {
         <View style={styles.selectButtonContainer}>
           <TouchableOpacity
             onPress={() => handleSelectOpenOnWeekendsOption(true)}
-            style={[styles.selectFirstButton, state.openOnWeekends !== null && state.openOnWeekends && styles.selectedButton]}
+            style={[styles.selectFirstButton, state.openOnWeekends !== null && state.openOnWeekends && styles.selectedFirstButton]}
           >
-            <Text style={[styles.selectButtonText, state.openOnWeekends !== null && state.openOnWeekends && styles.selectedButtonText]}>Sim</Text>
+            <Text style={[styles.selectButtonText, state.openOnWeekends !== null && state.openOnWeekends && styles.selectedFirstButtonText]}>Sim</Text>
           </TouchableOpacity>
 
           <TouchableOpacity
             onPress={() => handleSelectOpenOnWeekendsOption(false)}
-            style={[styles.selectSecondButton, state.openOnWeekends !== null && !state.openOnWeekends && styles.selectedButton]}
+            style={[styles.selectSecondButton, state.openOnWeekends !== null && !state.openOnWeekends && styles.selectedSecondButton]}
           >
-            <Text style={[styles.selectButtonText, state.openOnWeekends !== null && !state.openOnWeekends && styles.selectedButtonText]}>Não</Text>
+            <Text style={[styles.selectButtonText, state.openOnWeekends !== null && !state.openOnWeekends && styles.selectedSecondButtonText]}>Não</Text>
           </TouchableOpacity>
         </View>
       </View>
