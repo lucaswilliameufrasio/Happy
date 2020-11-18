@@ -11,10 +11,10 @@ type Props = {
   showCancel?: boolean
 }
 
-function Header ({ title, showCancel = true }: Props): JSX.Element {
+function Header ({ title, showCancel = true }: Props) {
   const navigation = useNavigation()
 
-  function handleBackToAppInitialScreen (): void {
+  function handleBackToAppInitialScreen () {
     navigation.navigate('OrphanagesMap')
   }
 

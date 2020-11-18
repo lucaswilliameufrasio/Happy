@@ -7,7 +7,7 @@ import Header from '../header/header'
 
 const AppStack = createStackNavigator()
 
-function Routes(): JSX.Element {
+function Routes () {
   return (
     <NavigationContainer>
       <AppStack.Navigator
