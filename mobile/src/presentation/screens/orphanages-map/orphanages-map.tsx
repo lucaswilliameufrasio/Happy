@@ -6,7 +6,7 @@ import styles from './orphanages-map-styles'
 
 import mapMarker from '../../../../assets/map-marker.png'
 
-const OrphanagesMap = (): JSX.Element => {
+function OrphanagesMap (): JSX.Element {
   return (
     <View style={styles.container}>
       <MapView
