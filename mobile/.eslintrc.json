@@ -6,6 +6,7 @@
   },
   "extends": [
     "standard-with-typescript",
+    "plugin:react/recommended",
     "plugin:react-native/all"
   ],
   "plugins": [
