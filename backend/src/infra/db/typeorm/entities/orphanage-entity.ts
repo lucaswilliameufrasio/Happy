@@ -3,7 +3,7 @@ import { EntitySchema } from 'typeorm'
 
 export const OrphanageEntity = new EntitySchema<OrphanageModel>({
   name: 'Orphanage',
-  tableName: 'Orphanage',
+  tableName: 'orphanage',
   columns: {
     id: {
       type: Number,
